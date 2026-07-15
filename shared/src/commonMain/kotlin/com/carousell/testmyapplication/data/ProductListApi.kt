@@ -1,5 +1,6 @@
 package com.carousell.testmyapplication.data
 
+import com.carousell.testmyapplication.util.logMessage
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -21,7 +22,7 @@ class ProductListApiImpl(private val client: HttpClient) : ProductListApi {
             client.get(API_URL).body()
         } catch (e: Exception) {
             if (e is CancellationException) throw e
-            e.printStackTrace()
+            logMessage("ProductListApiImpl :: ${e.stackTraceToString()}")
             null
         }
     }

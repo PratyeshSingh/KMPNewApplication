@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.carousell.testmyapplication.data.ProductList
 import com.carousell.testmyapplication.repository.ListRepository
+import com.carousell.testmyapplication.util.logMessage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -38,7 +39,7 @@ class ListViewModel(
     internal fun actionHandler(action: ProductAction) {
         when (action) {
             is ProductAction.ViewDetail -> {
-                // todo
+                logMessage("Product Id :: ${action.itemId}")
             }
 
             ProductAction.Retry -> getProductList()
