@@ -37,6 +37,9 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.androidx.compose)
 
+            implementation(libs.ktor.client.auth)
+            implementation(libs.ktor.client.logging)
+
             implementation(projects.foundation.logger)
         }
     }
