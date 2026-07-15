@@ -35,6 +35,8 @@ include(":androidApp")
 include(":shared")
 include(":features:product-list")
 include(":network:ktor-core")
+
 include(":foundation:logger")
+include(":foundation:host-url")
 
 include(":api:product-list")

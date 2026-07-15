@@ -2,11 +2,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidMultiplatformLibrary) // or androidLibrary
-
-
-    alias(libs.plugins.kotlinxSerialization)
-    alias(libs.plugins.kmpNativeCoroutines)
+    alias(libs.plugins.androidMultiplatformLibrary)
 }
 
 kotlin {
@@ -16,7 +12,7 @@ kotlin {
     iosSimulatorArm64()
 
     androidLibrary {
-        namespace = "com.api.product.list"
+        namespace = "com.carousell.hosturl"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
 
@@ -33,15 +29,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-
-            implementation(libs.kotlinx.serialization.core)
-
-            implementation(projects.network.ktorCore)
-            implementation(projects.foundation.logger)
-
-            implementation(libs.ktor.serialization.kotlinx.json)
-
-            implementation(libs.koin.androidx.compose)
+//            implementation(libs.compose.runtime)
         }
     }
 }

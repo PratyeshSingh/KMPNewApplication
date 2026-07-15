@@ -30,6 +30,12 @@ kotlin {
     }
 
     sourceSets {
+        androidMain.dependencies {
+            implementation(libs.ktor.client.okhttp)
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+        }
         commonMain.dependencies {
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
@@ -37,7 +43,11 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.androidx.compose)
 
+            implementation(libs.ktor.client.auth)
+            implementation(libs.ktor.client.logging)
+
             implementation(projects.foundation.logger)
+            implementation(projects.foundation.hostUrl)
         }
     }
 }
