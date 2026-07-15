@@ -1,4 +1,4 @@
-package com.carousell.testmyapplication.uicomponents
+package com.product.list.uicomponents
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-internal fun Loader(
+fun Loader(
     modifier: Modifier = Modifier
 ) {
     Box(

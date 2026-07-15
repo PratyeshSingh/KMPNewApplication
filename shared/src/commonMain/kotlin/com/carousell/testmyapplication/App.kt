@@ -9,11 +9,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.carousell.testmyapplication.uicomponents.FeedErrorScreen
-import com.carousell.testmyapplication.uicomponents.Loader
-import com.carousell.testmyapplication.uicomponents.ProductListScreen
-import com.carousell.testmyapplication.viewmodel.ListViewModel
-import com.carousell.testmyapplication.viewmodel.ProductState
+import com.product.list.uicomponents.Loader
+import com.product.list.uicomponents.ProductListScreen
+import com.product.list.uicomponents.FeedErrorScreen
+import com.product.list.viewmodel.ListViewModel
+import com.product.list.viewmodel.ProductState
 import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
 

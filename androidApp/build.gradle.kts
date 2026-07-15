@@ -16,6 +16,7 @@ kotlin {
 dependencies {
     implementation(projects.shared)
     implementation(projects.api.productList)
+    implementation(projects.features.productList)
 
     implementation(libs.androidx.activity.compose)
 

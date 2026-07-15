@@ -64,6 +64,7 @@ kotlin {
             implementation(projects.network.ktorCore)
             implementation(projects.foundation.logger)
             implementation(projects.api.productList)
+            implementation(projects.features.productList)
 
             implementation(libs.koin.core)
             implementation(libs.koin.androidx.compose)

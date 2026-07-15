@@ -2,7 +2,7 @@ package com.carousell.testmyapplication.di
 
 import com.api.product.list.appModule
 import com.carousell.testmyapplication.network.ktor.core.di.networkModule
-import com.carousell.testmyapplication.viewmodel.ListViewModel
+import com.product.list.viewmodel.ListViewModel
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.dsl.module

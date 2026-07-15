@@ -1,4 +1,4 @@
-package com.carousell.testmyapplication.uicomponents
+package com.product.list.uicomponents
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,17 +13,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.carousell.testmyapplication.viewmodel.ProductAction
-import com.carousell.testmyapplication.viewmodel.ProductActionHandler
+import com.product.list.Res
+import com.product.list.feed_loading_failed
+import com.product.list.retry
+import com.product.list.viewmodel.ProductAction
+import com.product.list.viewmodel.ProductActionHandler
 import org.jetbrains.compose.resources.stringResource
-import testmyapplication.shared.generated.resources.Res
-import testmyapplication.shared.generated.resources.feed_loading_failed
-import testmyapplication.shared.generated.resources.retry
+
 
 @Composable
-internal fun FeedErrorScreen(
+fun FeedErrorScreen(
     productAction: ProductActionHandler,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier.fillMaxSize(),

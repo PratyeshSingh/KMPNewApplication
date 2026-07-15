@@ -1,4 +1,4 @@
-package com.carousell.testmyapplication.viewmodel
+package com.product.list.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -36,7 +36,7 @@ class ListViewModel(
         }
     }
 
-    internal fun actionHandler(action: ProductAction) {
+    fun actionHandler(action: ProductAction) {
         when (action) {
             is ProductAction.ViewDetail -> {
                 logMessage("Product Id :: ${action.itemId}")

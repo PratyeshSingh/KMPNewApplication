@@ -1,4 +1,4 @@
-package com.carousell.testmyapplication.viewmodel
+package com.product.list.viewmodel
 
 sealed class ProductAction {
     data class ViewDetail(val itemId: String) : ProductAction()

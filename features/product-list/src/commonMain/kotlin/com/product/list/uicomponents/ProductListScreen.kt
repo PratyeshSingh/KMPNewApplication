@@ -1,4 +1,4 @@
-package com.carousell.testmyapplication.uicomponents
+package com.product.list.uicomponents
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,8 +24,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.api.product.list.data.ProductList
-import com.carousell.testmyapplication.viewmodel.ProductAction
-import com.carousell.testmyapplication.viewmodel.ProductActionHandler
+import com.product.list.viewmodel.ProductAction
+import com.product.list.viewmodel.ProductActionHandler
 
 @Composable
 fun ProductListScreen(
