@@ -33,8 +33,7 @@ fun App() {
         val viewModel: ListViewModel = koinViewModel()
 
         val refreshCall = remember { mutableStateOf(true) }
-        LaunchedEffect( refreshCall) {
-            refreshCall.value = !refreshCall.value
+        LaunchedEffect( refreshCall.value) {
             viewModel.getProductList()
         }
 

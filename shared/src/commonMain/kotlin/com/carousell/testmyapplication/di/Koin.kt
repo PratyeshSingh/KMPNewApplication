@@ -1,17 +1,28 @@
 package com.carousell.testmyapplication.di
 
+import com.api.product.list.appModule
+import com.carousell.testmyapplication.network.ktor.core.di.networkModule
+import com.carousell.testmyapplication.viewmodel.ListViewModel
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
 
 
-fun initKoin() = initKoin(emptyList())
+/*
+ calling this functions from iOS 'iOSApp.swift' class
+*/
+fun initKoin() = initKoin(listOf(
+    module {
+        factory { ListViewModel(get()) }
+    }
+))
 
 fun initKoin(extraModules: List<Module>) {
     startKoin {
         modules(
             networkModule,
+            appModule,
             *extraModules.toTypedArray(),
         )
     }

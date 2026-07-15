@@ -1,7 +1,8 @@
-package com.carousell.testmyapplication.repository
+package com.api.product.list.repository
 
-import com.carousell.testmyapplication.data.ProductListApi
-import com.carousell.testmyapplication.data.ProductListResponse
+import com.api.product.list.ProductListApi
+import com.api.product.list.data.ProductListResponse
+
 
 class ListRepositoryImpl(
     private val productListApi: ProductListApi,

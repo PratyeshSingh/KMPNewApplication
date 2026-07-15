@@ -23,7 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.carousell.testmyapplication.data.ProductList
+import com.api.product.list.data.ProductList
 import com.carousell.testmyapplication.viewmodel.ProductAction
 import com.carousell.testmyapplication.viewmodel.ProductActionHandler
 

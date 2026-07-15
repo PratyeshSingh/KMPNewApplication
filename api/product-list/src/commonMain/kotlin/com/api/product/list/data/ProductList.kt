@@ -1,4 +1,4 @@
-package com.carousell.testmyapplication.data
+package com.api.product.list.data
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonNames

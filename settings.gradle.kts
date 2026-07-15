@@ -33,3 +33,8 @@ dependencyResolutionManagement {
 
 include(":androidApp")
 include(":shared")
+include(":features:product-list")
+include(":network:ktor-core")
+include(":foundation:logger")
+
+include(":api:product-list")

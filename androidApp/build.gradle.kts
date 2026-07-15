@@ -15,6 +15,7 @@ kotlin {
 }
 dependencies {
     implementation(projects.shared)
+    implementation(projects.api.productList)
 
     implementation(libs.androidx.activity.compose)
 
@@ -41,8 +42,17 @@ android {
         }
     }
     buildTypes {
-        getByName("release") {
+        debug {
             isMinifyEnabled = false
+            isDebuggable = true
+        }
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
