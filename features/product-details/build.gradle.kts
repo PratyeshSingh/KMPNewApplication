@@ -11,19 +11,26 @@ plugins {
     alias(libs.plugins.kmpNativeCoroutines)
 }
 
+compose.resources {
+    // 1. Force the generator to make the 'Res' class public so other modules can read it
+    publicResClass = true
+
+    // 2. Assign a distinct, clean package name to isolate this module's assets
+    packageOfResClass = "com.product.details"
+
+    // 3. Ensure code generation always runs for multi-module isolation
+    generateResClass = always
+}
+
 kotlin {
-    listOf(
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "Shared"
-            isStatic = true
-        }
-    }
+
+    // Define targets (match your shared module)
+    iosArm64()
+    iosSimulatorArm64()
+
 
     androidLibrary {
-        namespace = "com.carousell.testmyapplication.shared"
+        namespace = "com.product.details"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
 
@@ -39,25 +46,17 @@ kotlin {
     }
 
     sourceSets {
-        androidMain.dependencies {
-            implementation(libs.compose.uiToolingPreview)
-        }
-        iosMain.dependencies {
-        }
         commonMain.dependencies {
+
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)
             implementation(libs.compose.ui)
-            implementation(libs.compose.components.resources)
+            api(libs.compose.components.resources)
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.kotlinx.serialization.core)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
-
-            implementation(libs.material.icons.core)
-
-            implementation(libs.navigation.compose)
 
 
             implementation(libs.coil.compose)
@@ -65,17 +64,13 @@ kotlin {
 
             implementation(libs.ktor.serialization.kotlinx.json)
 
-            implementation(projects.network.ktorCore)
-            implementation(projects.foundation.logger)
+//            implementation(projects.network.ktorCore)
+//            implementation(projects.foundation.logger)
             implementation(projects.api.productList)
-            implementation(projects.features.productList)
-            implementation(projects.features.productDetails)
+            implementation(projects.foundation.apiCache)
 
             implementation(libs.koin.core)
             implementation(libs.koin.androidx.compose)
-        }
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
         }
     }
 }

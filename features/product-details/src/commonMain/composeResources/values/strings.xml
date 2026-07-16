@@ -1,0 +1,16 @@
+<resources>
+
+    <string name="label_title">Title</string>
+    <string name="label_brand">Brand</string>
+    <string name="label_warranty">Warranty</string>
+    <string name="label_category">Category</string>
+    <string name="label_description">Description</string>
+
+    <string name="back">Back</string>
+
+
+    <string name="product_details">Product Details</string>
+    <string name="retry">Retry</string>
+</resources>
+
+

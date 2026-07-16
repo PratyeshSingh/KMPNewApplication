@@ -2,6 +2,7 @@ package com.carousell.testmyapplication.di
 
 import com.api.product.list.appModule
 import com.carousell.testmyapplication.network.ktor.core.di.networkModule
+import com.product.details.productDetailsModule
 import com.product.list.viewmodel.ListViewModel
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
@@ -20,6 +21,7 @@ fun initKoin() = initKoin(listOf(
 fun initKoin(extraModules: List<Module>) {
     startKoin {
         modules(
+            productDetailsModule,
             networkModule,
             appModule,
             *extraModules.toTypedArray(),

@@ -4,7 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.api.product.list.data.ProductList
 import com.api.product.list.repository.ListRepository
-import com.carousell.testmyapplication.logger.logMessage
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -25,7 +26,7 @@ class ListViewModel(
     val state = _state.asStateFlow()
 
     fun getProductList() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _state.value = ProductState.Loading
             val data = listRepository.getList()
             if (data == null) {
@@ -38,12 +39,9 @@ class ListViewModel(
 
     fun actionHandler(action: ProductAction) {
         when (action) {
-            is ProductAction.ViewDetail -> {
-                logMessage("Product Id :: ${action.itemId}")
-            }
-
             ProductAction.Retry -> getProductList()
             ProductAction.Refresh -> _state.value = ProductState.Refresh
+            else -> {}
         }
     }
 }

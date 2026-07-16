@@ -27,6 +27,7 @@ import testmyapplication.shared.generated.resources.more_vert
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppToolBar(
+    title: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -36,7 +37,7 @@ fun AppToolBar(
         modifier = modifier,
         title = {
             Text(
-                text = stringResource(Res.string.app_home_title),
+                text = title,
                 color = MaterialTheme.colorScheme.onSecondary
             )
         },

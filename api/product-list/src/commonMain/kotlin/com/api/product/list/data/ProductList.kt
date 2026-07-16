@@ -15,6 +15,9 @@ data class ProductListResponse(
 data class ProductList(
     @JsonNames(names = ["title"]) val title: String,
     @JsonNames(names = ["thumbnail"]) val thumbnail: String,
-    @JsonNames(names = ["description"]) val description: String,
+    @JsonNames(names = ["description"]) val description: String? = null,
+    @JsonNames(names = ["warrantyInformation"]) val warrantyInformation: String? = null,
+    @JsonNames(names = ["brand"]) val brand: String? = null,
+    @JsonNames(names = ["category"]) val category: String? = null,
     @JsonNames(names = ["id"]) val id: Long
 )

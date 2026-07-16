@@ -1,84 +1,83 @@
 package com.carousell.testmyapplication
 
-import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.product.list.uicomponents.FeedErrorScreen
-import com.product.list.uicomponents.Loader
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import com.api.product.list.data.ProductList
+import com.carousell.testmyapplication.serializers.ProductListType
+import com.product.details.ProductDetailsScreen
 import com.product.list.uicomponents.ProductListScreen
-import com.product.list.viewmodel.ListViewModel
-import com.product.list.viewmodel.ProductState
 import kotlinx.serialization.Serializable
-import org.koin.compose.viewmodel.koinViewModel
+import org.jetbrains.compose.resources.stringResource
+import testmyapplication.shared.generated.resources.Res
+import testmyapplication.shared.generated.resources.app_home_title
+import kotlin.reflect.typeOf
 
 
 @Serializable
 object ListDestination
 
 @Serializable
-data class DetailDestination(val objectId: Int)
+data class DetailDestination(val itemID: String)
 
 
 @Composable
 fun App() {
     MaterialTheme {
-        Scaffold(
-            topBar = {
-                AppToolBar(
-                    onClick = {
-                    }
-                )
-            },
-            containerColor = MaterialTheme.colorScheme.background
-        ) { innerPadding ->
-            BodyContent(Modifier.padding(innerPadding))
+        Surface {
+            val navController: NavHostController = rememberNavController()
+            NavHost(
+                navController = navController,
+                startDestination = ListDestination
+            ) {
+                composable<ListDestination> {
+                    ProductListScreen(
+                        navigateToDetails = { itemId ->
+                            navController.navigate(DetailDestination(itemId))
+                        },
+                        topBar = {
+                            AppToolBar(
+                                title = stringResource(Res.string.app_home_title),
+                                onClick = {
+
+                                }
+                            )
+                        }
+                    )
+                }
+                composable<DetailDestination> { backStackEntry ->
+                    ProductDetailsScreen(
+                        item = backStackEntry.toRoute<DetailDestination>().itemID,
+                        topBar = {
+                            TopAppBar(
+                                title = {},
+                                navigationIcon = {
+                                    IconButton(onClick = navController::popBackStack) {
+                                        Icon(
+                                            Icons.AutoMirrored.Filled.ArrowBack,
+                                            stringResource(Res.string.app_home_title)
+                                        )
+                                    }
+                                }
+                            )
+                        },
+                        onClick = {
+                            navController.popBackStack()
+                        }
+                    )
+                }
+            }
         }
     }
 }
 
-
-@Composable
-private fun BodyContent(
-    modifier: Modifier = Modifier
-) {
-    val viewModel: ListViewModel = koinViewModel()
-
-    val refreshCall = remember { mutableStateOf(true) }
-    LaunchedEffect(refreshCall.value) {
-        viewModel.getProductList()
-    }
-
-    val state = viewModel.state.collectAsStateWithLifecycle().value
-
-    when (state) {
-        is ProductState.Content -> {
-            ProductListScreen(
-                modifier = modifier,
-                products = state.data,
-                productAction = viewModel::actionHandler,
-            )
-        }
-
-        ProductState.Loading -> {
-            Loader(modifier = modifier)
-        }
-
-        ProductState.Error -> {
-            FeedErrorScreen(
-                modifier = modifier,
-                productAction = viewModel::actionHandler
-            )
-        }
-
-        ProductState.Refresh -> {
-            refreshCall.value = !refreshCall.value
-        }
-
-    }
-}
