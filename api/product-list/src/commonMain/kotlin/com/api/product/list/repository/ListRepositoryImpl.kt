@@ -18,4 +18,12 @@ class ListRepositoryImpl(
         }
         return response
     }
+
+    override suspend fun searchProduct(searchQuery: String): ProductListResponse? {
+        val response = productListApi.searchProduct(searchQuery)
+        response?.let {
+            apiCacheHolder.saveApiDetails("PRODUCTLIST", response)
+        }
+        return response
+    }
 }

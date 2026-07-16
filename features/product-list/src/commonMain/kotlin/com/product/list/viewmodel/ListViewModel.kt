@@ -14,7 +14,6 @@ import kotlinx.coroutines.launch
 
 
 sealed class ProductState {
-    data object Refresh : ProductState()
     data object Loading : ProductState()
     data object Error : ProductState()
     class Content(val data: List<ProductList>) : ProductState()
@@ -24,7 +23,9 @@ class ListViewModel(
     private val listRepository: ListRepository,
 ) : ViewModel() {
 
+    private var mSearchText : String = ""
     private val _state = MutableStateFlow<ProductState>(ProductState.Loading)
+
     @NativeCoroutines
     val state: StateFlow<ProductState> = _state.asStateFlow()
 
@@ -42,9 +43,23 @@ class ListViewModel(
 
     fun actionHandler(action: ProductAction) {
         when (action) {
-            ProductAction.Retry -> getProductList()
-            ProductAction.Refresh -> _state.value = ProductState.Refresh
+            ProductAction.Retry, ProductAction.Reset -> getProductList()
             else -> {}
+        }
+    }
+
+    fun searchProduct(searchQuery: String) {
+        if (searchQuery.trim().isNotEmpty() && searchQuery != mSearchText) {
+            mSearchText = searchQuery
+            viewModelScope.launch(Dispatchers.IO) {
+                _state.value = ProductState.Loading
+                val data = listRepository.searchProduct(searchQuery)
+                if (data == null) {
+                    _state.value = ProductState.Error
+                } else {
+                    _state.value = ProductState.Content(data.products)
+                }
+            }
         }
     }
 }

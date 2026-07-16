@@ -8,6 +8,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -38,7 +40,9 @@ fun App() {
                 startDestination = ListDestination
             ) {
                 composable<ListDestination> {
+                    val searchText = rememberSaveable { mutableStateOf("") }
                     ProductListScreen(
+                        searchQuery = searchText.value,
                         navigateToDetails = { itemId ->
                             navController.navigate(DetailDestination(itemId))
                         },
@@ -47,6 +51,9 @@ fun App() {
                                 title = stringResource(Res.string.app_home_title),
                                 onClick = {
 
+                                },
+                                onSearchQuery = {
+                                    searchText.value = it
                                 }
                             )
                         }
