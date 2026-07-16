@@ -6,10 +6,19 @@ import com.api.product.list.data.ProductListResponse
 
 class FakeProductListApi : ProductListApi {
     var responseToReturn: ProductListResponse? = null
+    var shouldSearchThrowException = false
     var getProductListCalled = false
+    var searchProductCalled = false
+    var searchQueryPassed: String? = null
 
     override suspend fun getProductList(): ProductListResponse? {
         getProductListCalled = true
+        return responseToReturn
+    }
+
+    override suspend fun searchProduct(searchQuery: String): ProductListResponse? {
+        searchProductCalled = true
+        searchQueryPassed = searchQuery
         return responseToReturn
     }
 }

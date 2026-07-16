@@ -60,4 +60,57 @@ class ListRepositoryImplTest {
         assertNull(actualResponse)
         assertFalse(fakeApiCacheHolder.saveCalled)
     }
+
+    @Test
+    fun `searchProduct returns response and saves to cache when API call is successful`() = runTest {
+        // Arrange: Prepare query and expected response
+        val query = "phone"
+        val expectedResponse = ProductListResponse(limit = 10, skip = 0, total = 5)
+
+        // Set up your fake API (ensure your FakeProductListApi has these properties for searching)
+        fakeProductListApi.responseToReturn = expectedResponse
+
+        // Act
+        val actualResponse = repository.searchProduct(query)
+
+        // Assert
+        assertTrue(fakeProductListApi.searchProductCalled) // Verify API search was triggered
+        assertEquals(query, fakeProductListApi.searchQueryPassed) // Verify correct query was passed
+        assertEquals(expectedResponse, actualResponse)
+
+        // Verify Caching
+        assertTrue(fakeApiCacheHolder.saveCalled)
+        // Adjust cache key assertion based on how you construct the key for searches:
+        assertEquals("PRODUCTLIST", fakeApiCacheHolder.savedKey)
+        assertEquals(expectedResponse, fakeApiCacheHolder.savedResponse)
+    }
+
+    @Test
+    fun `searchProduct returns null and does not cache when API search returns null`() = runTest {
+        // Arrange
+        val query = "invalid_query"
+        fakeProductListApi.responseToReturn = null
+
+        // Act
+        val actualResponse = repository.searchProduct(query)
+
+        // Assert
+        assertTrue(fakeProductListApi.searchProductCalled)
+        assertNull(actualResponse)
+        assertFalse(fakeApiCacheHolder.saveCalled)
+    }
+
+    @Test
+    fun `searchProduct returns null and does not cache when API search throws exception`() = runTest {
+        // Arrange
+        val query = "phone"
+        fakeProductListApi.shouldSearchThrowException = true
+
+        // Act
+        val actualResponse = repository.searchProduct(query)
+
+        // Assert
+        assertNull(actualResponse)
+        assertFalse(fakeApiCacheHolder.saveCalled)
+    }
 }
