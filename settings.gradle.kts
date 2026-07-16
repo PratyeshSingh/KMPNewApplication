@@ -30,7 +30,33 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+fun include(name: String, filePath: String? = null) {
+    settings.include(name)
+    val project = project(name)
+    project.configureProjectDir(filePath)
+    project.configureBuildFileName(name)
+}
 
+fun ProjectDescriptor.configureProjectDir(filePath: String? = null) {
+    if (filePath != null) {
+        projectDir = File(rootDir, filePath)
+    }
+    if (!projectDir.exists()) {
+        throw GradleException("Path : $projectDir does not exist, Cannot include project: $name")
+    }
+    if (!projectDir.isDirectory) {
+        throw GradleException("Path : $projectDir is a file instead of a directory.Cannot include project: $name")
+    }
+}
+
+fun ProjectDescriptor.configureBuildFileName(projectName: String) {
+
+    val name = projectName.substringAfterLast(":")
+    buildFileName = "$name.gradle.kts"
+    if (!buildFile.exists()) {
+        throw GradleException("Build file: $name.gradle.kts does not exist.Cannot include project: $name")
+    }
+}
 include(":androidApp")
 include(":shared")
 include(":network:ktor-core")
