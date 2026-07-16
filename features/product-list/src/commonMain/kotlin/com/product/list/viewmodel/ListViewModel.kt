@@ -4,9 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.api.product.list.data.ProductList
 import com.api.product.list.repository.ListRepository
+import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
@@ -23,7 +25,8 @@ class ListViewModel(
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<ProductState>(ProductState.Loading)
-    val state = _state.asStateFlow()
+    @NativeCoroutines
+    val state: StateFlow<ProductState> = _state.asStateFlow()
 
     fun getProductList() {
         viewModelScope.launch(Dispatchers.IO) {

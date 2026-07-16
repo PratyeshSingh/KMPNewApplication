@@ -13,15 +13,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.api.product.list.data.ProductList
-import com.carousell.testmyapplication.serializers.ProductListType
 import com.product.details.ProductDetailsScreen
 import com.product.list.uicomponents.ProductListScreen
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.stringResource
 import testmyapplication.shared.generated.resources.Res
 import testmyapplication.shared.generated.resources.app_home_title
-import kotlin.reflect.typeOf
 
 
 @Serializable
