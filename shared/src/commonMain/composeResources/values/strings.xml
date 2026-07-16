@@ -1,6 +1,11 @@
 <resources>
     <string name="feed_loading_failed">Feed loading failed!</string>
     <string name="retry">Retry</string>
+    <string name="app_home_title">DemoApp</string>
+    <string name="cd_more_info">More Menu</string>
+    <string name="recent">Recent</string>
+    <string name="popular">Popular</string>
+
 </resources>
 
 

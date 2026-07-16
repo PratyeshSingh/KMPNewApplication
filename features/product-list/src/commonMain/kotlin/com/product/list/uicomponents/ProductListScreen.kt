@@ -4,14 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -35,8 +32,7 @@ fun ProductListScreen(
 ) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(180.dp),
-        modifier = modifier.fillMaxSize(),
-        contentPadding = WindowInsets.safeDrawing.asPaddingValues(),
+        modifier = modifier.fillMaxSize()
     ) {
         items(products, key = { it.id }) { item ->
             ProductFrame(
@@ -73,7 +69,7 @@ private fun ProductFrame(
         Spacer(Modifier.height(2.dp))
 
         Text(item.title, style = MaterialTheme.typography.titleMedium)
-        Text(item.title, style = MaterialTheme.typography.bodyMedium)
+        Text(item.id.toString(), style = MaterialTheme.typography.bodyMedium)
         Text(item.description, style = MaterialTheme.typography.bodySmall)
     }
 }
