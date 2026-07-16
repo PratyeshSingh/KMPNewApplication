@@ -46,6 +46,9 @@ kotlin {
     }
 
     sourceSets {
+        androidMain.dependencies {
+            implementation(libs.koin.androidx.compose)
+        }
         commonMain.dependencies {
 
             implementation(libs.compose.runtime)
@@ -69,7 +72,7 @@ kotlin {
             implementation(projects.api.productList)
 
             implementation(libs.koin.core)
-            implementation(libs.koin.androidx.compose)
+            implementation(libs.koin.compose)
         }
     }
 }

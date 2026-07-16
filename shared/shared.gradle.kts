@@ -22,6 +22,18 @@ kotlin {
         }
     }
 
+//    // First-party SPM integration (introduced in Kotlin 2.4.0)
+//    swiftPMDependencies {
+//        swiftPackage(
+//            url = url("https://github.com/firebase/firebase-ios-sdk.git"),
+//            version = from("12.5.0"),
+//            products = listOf(
+//                product("FirebaseCore"),
+//                product("FirebaseAnalytics")
+//            )
+//        )
+//    }
+
     android {
         namespace = "com.carousell.testmyapplication.shared"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
@@ -41,6 +53,7 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
+            implementation(libs.koin.androidx.compose)
         }
         iosMain.dependencies {
         }
@@ -50,7 +63,6 @@ kotlin {
             implementation(libs.compose.material3)
             implementation(libs.compose.ui)
             implementation(libs.compose.components.resources)
-            implementation(libs.compose.uiToolingPreview)
             implementation(libs.kotlinx.serialization.core)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
@@ -72,7 +84,7 @@ kotlin {
             implementation(projects.features.productDetails)
 
             implementation(libs.koin.core)
-            implementation(libs.koin.androidx.compose)
+            implementation(libs.koin.compose)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
