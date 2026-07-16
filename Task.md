@@ -1,78 +1,79 @@
-Overview
-As part of Revest's mobile engineering team, you may be expected to translate business requirements into scalable, maintainable code across platforms. This task will help us evaluate your understanding of clean architecture, multiplatform development with Kotlin, and your ability to build a simple, functional mobile experience for both Android and iOS.
+# Technical Task: Product Browser App (Kotlin Multiplatform)
 
-You are required to build a Kotlin Multiplatform Mobile (KMM) application using Kotlin Compose Multiplatform, targeting both Android and iOS.
+## 1. Project Overview & Business Value
 
-The app should consume product data from a public API: https://dummyjson.com/docs/products
+Expectation is here to translate business requirements into highly scalable, maintainable codebases across platforms. This technical task evaluates your understanding of:
 
-Business Requirements
-Revest is exploring a cross-platform mobile product catalog prototype for internal use. The app should allow users to:
+* **Clean Architecture** design patterns.
+* Multiplatform application development utilizing **Kotlin Multiplatform (KMP)**.
+* Your ability to build a highly functional, responsive mobile experience for both Android and iOS.
 
-1.    View a list of products showing name, price, and thumbnail.
+The application serves as a mobile product catalog prototype designed for personal exploration. It consumes live product data from the public [DummyJSON Products API](https://dummyjson.com/docs/products).
 
-2.    Tap a product to view detailed information including title, description, brand, price, and rating.
+---
 
-3.    Search products by keyword (integrate API-based search).
+## 2. Core Functional Requirements
 
-4.    [Optional] Filter products by category.
+The prototype must provide a fluid user experience supporting these core interactions:
 
-Technical Requirements
-Architecture and Code Structure:
+1. **Product List:** Display a scrollable list of products containing:
+* Product Name (Title)
+* Price
+* Thumbnail Image
 
--   Use Clean Architecture: separate data, domain, and presentation layers.
 
--   Use Kotlin Compose Multiplatform for building shared UI components across Android and iOS.
+2. **Product Details:** Tapping a product navigates the user to a detailed screen showing:
+* Full Title & Description
+* Brand Name
+* Price
+* User Rating
 
--   Use Ktor Client for API requests.
 
--   Use kotlinx.serialization for JSON parsing.
+3. **Search Functionality:** An active keyword-based search that integrates directly with the [DummyJSON search API endpoint](https://dummyjson.com/docs/products).
+4. **Category Filtering (Optional / Bonus):** Provide a clean way to filter products by their respective categories.
 
--   Use StateFlow for managing UI state in ViewModels.
+---
 
--   Dependency Injection is optional (manual is acceptable).
+## 3. Architecture & Technical Specifications
 
-Technical Task: Product Browser App (Kotlin Multiplatform)
+To ensure enterprise-grade code quality, the implementation must adhere strictly to the following parameters:
 
-Functionality Scope:
+### Architectural Design
 
--   Android and iOS support via Kotlin Multiplatform.
+* **Clean Architecture Rules:** Explicitly separate concerns into isolated **Data**, **Domain**, and **Presentation** layers.
+* **Unified UI:** Build shared user interface components across both Android and iOS using **Kotlin Compose Multiplatform**.
+* **State Management:** Maintain a unidirectional data flow (UDF) using Kotlin's **StateFlow** within the ViewModels to expose UI state.
 
--   Product list screen.
+### Technical Stack
 
--   Product detail screen.
+* **Networking Client:** [Ktor Client](https://ktor.io/) for cross-platform API requests.
+* **JSON Serialization:** [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) for parsing network payloads safely without reflection.
+* **Dependency Injection:** Optional. Manual DI is fully acceptable, though you may use frameworks if preferred.
 
--   Search functionality integrated with the API.
+---
 
--   At least one business use case (e.g., GetProducts, SearchProducts).
+## 4. Deliverables & Evaluation Criteria
 
--   At least one unit test for a use case or repository.
+### Mandatory Deliverables
 
-Deliverables
-1.    A GitHub repository containing the full source code.
+1. **Source Code:** A fully accessible GitHub repository containing the complete Kotlin Multiplatform source code.
+2. **README Documentation:** A robust documentation file containing:
+* A summary of the target business requirements.
+* A high-level project architecture overview.
+* Step-by-step instructions on compiling and running the application on both Android and iOS hosts.
+* Any key technical trade-offs or structural assumptions made during development.
 
-2.    A README file that includes:
 
--   Summary of the business requirements.
+3. **Test Suite:** At least one business logic unit test targeting a business use case (e.g., `GetProducts`, `SearchProducts`) or the underlying Repository implementation.
 
--   Project architecture overview.
+### Evaluation Criteria
 
--   Instructions on how to build and run the app on Android and iOS.
+Your work will be reviewed against the following engineering benchmarks:
 
--   Any trade-offs or assumptions made during development.
-
-Evaluation Criteria
-Architecture: Clean separation of concerns with well-structured modules
-
-API Integration: Proper use of Ktor client and handling of network data
-
-UI Design: Functional and consistent UI using Compose across Android and iOS
-
-Code Quality: Readable, maintainable, testable Kotlin code
-
-Platform Support: Working build for both Android and iOS targets
-
-Business Understanding: Accurate translation of feature requirements into functional app logic
-
-Bonus Points: Filtering by category, local caching, iOS previews using Compose Multiplatform.
-
-You can connect with me for more information on LinkedIn or can call me directly and for applying directly, Via Job application through given link.
+* **Architecture:** Clean separation of concerns with well-structured multiplatform modules.
+* **API Integration:** Proper configurations of the Ktor client and robust parsing of remote data models.
+* **UI/UX Design:** Functional, responsive, and consistent UI presentation using Compose on both Android and iOS targets.
+* **Code Quality:** Clean, highly readable, maintainable, and testable idiomatic Kotlin code.
+* **Platform Support:** Working platform builds for both Android and iOS native targets.
+* **Business Translation:** Direct and accurate mapping of requirements into functional logic.
+* **Bonus Points:** Implement Category Filtering, Local Caching (offline capabilities), or active iOS live previews using Compose Multiplatform.
