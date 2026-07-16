@@ -29,7 +29,7 @@ kotlin {
     iosSimulatorArm64()
 
 
-    androidLibrary {
+    android {
         namespace = "com.product.details"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
