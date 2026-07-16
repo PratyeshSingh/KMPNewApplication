@@ -2,14 +2,21 @@ package com.carousell.testmyapplication.network.ktor.core.di
 
 import com.carousell.testmyapplication.logger.logMessage
 import com.carousell.testmyapplication.network.ktor.core.AppNetworkClient
+import com.carousell.testmyapplication.network.ktor.core.DefaultHeaderProvider
+import com.carousell.testmyapplication.network.ktor.core.HeaderProvider
+import com.carousell.testmyapplication.network.ktor.core.installRequestInterceptor
+import com.carousell.testmyapplication.network.ktor.core.installResponseInterceptor
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpRequestRetry
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.plugins.auth.providers.BearerTokens
 import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.request.header
 import io.ktor.http.ContentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.sync.Mutex
@@ -19,14 +26,28 @@ import org.koin.dsl.module
 
 // Guard to prevent concurrent multiple 401 token refresh API calls
 private val tokenRefreshMutex = Mutex()
+private const val REQ_TIMEOUT = 60000L
 
-private fun createHttpClient(): HttpClient {
+private fun createHttpClient(headerProvider: HeaderProvider): HttpClient {
     val json = Json {
         ignoreUnknownKeys = true
         coerceInputValues = true
     }
 
     return HttpClient {
+        installRequestInterceptor()
+        installResponseInterceptor()
+
+        engine {
+            followRedirects = true
+        }
+
+        defaultRequest {
+            headerProvider.getHeaders().forEach { (key, value) ->
+                header(key, value)
+            }
+        }
+
         // 1. CONTENT-TYPE OVERRIDE (Serves application/json anyway)
         install(ContentNegotiation) {
             // If API returns plain text but holds valid JSON, parse it as JSON
@@ -43,6 +64,11 @@ private fun createHttpClient(): HttpClient {
                         cause is io.ktor.client.network.sockets.SocketTimeoutException
             }
             exponentialDelay(base = 2.0, maxDelayMs = 4000)
+        }
+
+        install(HttpTimeout) {
+            requestTimeoutMillis = REQ_TIMEOUT
+            socketTimeoutMillis = REQ_TIMEOUT
         }
 
         // 3. AUTHENTICATOR (401 Interceptor with lock protection)
@@ -87,7 +113,7 @@ private fun createHttpClient(): HttpClient {
             level = LogLevel.ALL
             logger = object : io.ktor.client.plugins.logging.Logger {
                 override fun log(message: String) {
-                    logMessage("KTOR: $message")
+                    logMessage(message)
                 }
             }
         }
@@ -96,6 +122,7 @@ private fun createHttpClient(): HttpClient {
 
 val networkModule = module {
     logMessage("NetworkModule :: STEP1")
-    single { AppNetworkClient(createHttpClient()) }
+    single<HeaderProvider> { DefaultHeaderProvider() }
+    single { AppNetworkClient(createHttpClient(get())) }
     logMessage("NetworkModule :: STEP2")
 }
