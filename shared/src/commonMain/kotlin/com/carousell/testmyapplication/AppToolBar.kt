@@ -28,9 +28,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import testmyapplication.shared.generated.resources.Res
-import testmyapplication.shared.generated.resources.cd_more_info
-import testmyapplication.shared.generated.resources.more_vert
+import kmpnewapplication.shared.generated.resources.Res
+import kmpnewapplication.shared.generated.resources.cd_more_info
+import kmpnewapplication.shared.generated.resources.more_vert
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

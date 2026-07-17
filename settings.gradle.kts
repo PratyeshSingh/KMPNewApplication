@@ -1,4 +1,4 @@
-rootProject.name = "TestMyApplication"
+rootProject.name = "KMPNewApplication"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
@@ -57,6 +57,7 @@ fun ProjectDescriptor.configureBuildFileName(projectName: String) {
         throw GradleException("Build file: $name.gradle.kts does not exist.Cannot include project: $name")
     }
 }
+
 include(":androidApp")
 include(":shared")
 include(":network:ktor-core")

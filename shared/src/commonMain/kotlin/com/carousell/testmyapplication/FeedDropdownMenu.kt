@@ -6,9 +6,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.stringResource
-import testmyapplication.shared.generated.resources.Res
-import testmyapplication.shared.generated.resources.popular
-import testmyapplication.shared.generated.resources.recent
+import kmpnewapplication.shared.generated.resources.Res
+import kmpnewapplication.shared.generated.resources.popular
+import kmpnewapplication.shared.generated.resources.recent
 
 @Composable
 fun FeedDropdownMenu(

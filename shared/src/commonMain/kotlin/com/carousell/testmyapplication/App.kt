@@ -19,8 +19,8 @@ import com.product.details.ProductDetailsScreen
 import com.product.list.uicomponents.ProductListScreen
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.stringResource
-import testmyapplication.shared.generated.resources.Res
-import testmyapplication.shared.generated.resources.app_home_title
+import kmpnewapplication.shared.generated.resources.Res
+import kmpnewapplication.shared.generated.resources.app_home_title
 
 
 @Serializable
