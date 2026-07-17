@@ -2,6 +2,7 @@ package com.api.product.list
 
 import com.api.product.FakeApiCacheHolder
 import com.api.product.FakeProductListApi
+import com.api.product.list.data.ProductList
 import com.api.product.list.data.ProductListResponse
 import com.api.product.list.repository.ListRepositoryImpl
 import kotlinx.coroutines.test.runTest
@@ -31,7 +32,12 @@ class ListRepositoryImplTest {
         val expectedResponse = ProductListResponse(
             limit = 10,
             skip = 0,
-            total = 50
+            total = 50,
+            products = listOf(ProductList(
+                title = "Product 1",
+                thumbnail = "https://example.com/product1.jpg",
+                id = 1111
+            ))
         )
         fakeProductListApi.responseToReturn = expectedResponse
 
@@ -43,8 +49,8 @@ class ListRepositoryImplTest {
         assertEquals(expectedResponse, actualResponse)
 
         assertTrue(fakeApiCacheHolder.saveCalled)
-        assertEquals("PRODUCTLIST", fakeApiCacheHolder.savedKey)
-        assertEquals(expectedResponse, fakeApiCacheHolder.savedResponse)
+        assertEquals("1111", fakeApiCacheHolder.savedKey)
+        assertEquals(expectedResponse.products, listOf(fakeApiCacheHolder.savedResponse))
     }
 
     @Test
@@ -65,7 +71,18 @@ class ListRepositoryImplTest {
     fun `searchProduct returns response and saves to cache when API call is successful`() = runTest {
         // Arrange: Prepare query and expected response
         val query = "phone"
-        val expectedResponse = ProductListResponse(limit = 10, skip = 0, total = 5)
+        val expectedResponse = ProductListResponse(
+            limit = 10,
+            skip = 0,
+            total = 5,
+            products = listOf(
+                ProductList(
+                    title = "Product 1",
+                    thumbnail = "https://example.com/product1.jpg",
+                    id = 2222
+                )
+            )
+        )
 
         // Set up your fake API (ensure your FakeProductListApi has these properties for searching)
         fakeProductListApi.responseToReturn = expectedResponse
@@ -81,8 +98,8 @@ class ListRepositoryImplTest {
         // Verify Caching
         assertTrue(fakeApiCacheHolder.saveCalled)
         // Adjust cache key assertion based on how you construct the key for searches:
-        assertEquals("PRODUCTLIST", fakeApiCacheHolder.savedKey)
-        assertEquals(expectedResponse, fakeApiCacheHolder.savedResponse)
+        assertEquals("2222", fakeApiCacheHolder.savedKey)
+        assertEquals(expectedResponse.products, listOf(fakeApiCacheHolder.savedResponse))
     }
 
     @Test

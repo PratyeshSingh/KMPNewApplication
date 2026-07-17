@@ -13,16 +13,16 @@ class ListRepositoryImpl(
     override suspend fun getList(): ProductListResponse? {
         // handle local storage here for offline first approach
         val response = productListApi.getProductList()
-        response?.let {
-            apiCacheHolder.saveApiDetails("PRODUCTLIST", response)
+        response?.products?.forEach { product ->
+            apiCacheHolder.saveApiDetails(product.id.toString(), product)
         }
         return response
     }
 
     override suspend fun searchProduct(searchQuery: String): ProductListResponse? {
         val response = productListApi.searchProduct(searchQuery)
-        response?.let {
-            apiCacheHolder.saveApiDetails("PRODUCTLIST", response)
+        response?.products?.forEach { product ->
+            apiCacheHolder.saveApiDetails(product.id.toString(), product)
         }
         return response
     }

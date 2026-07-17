@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.api.cache.ApiCacheHolder
 import com.api.product.list.data.ProductList
-import com.api.product.list.data.ProductListResponse
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -24,16 +23,11 @@ class ProductDetailsViewModel(
 
     fun getProductDetails(itemID: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val response = apiCacheHolder.fetchApiDetails("PRODUCTLIST") as ProductListResponse?
-
-            response?.let {
-                val data = response.products.find { it.id.toString() == itemID }
-                if (data == null) {
-                    _state.value = null
-                } else {
-                    _state.value = data
-                }
-
+            val data = apiCacheHolder.fetchApiDetails(itemID) as ProductList?
+            if (data == null) {
+                _state.value = null
+            } else {
+                _state.value = data
             }
         }
     }

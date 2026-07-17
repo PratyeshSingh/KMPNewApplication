@@ -28,13 +28,13 @@ class FakeApiCacheHolder : ApiCacheHolder {
     var savedResponse: Any? = null
     var saveCalled = false
 
-    override fun saveApiDetails(key: String, data: Any) {
+    override suspend fun saveApiDetails(key: String, data: Any) {
         saveCalled = true
         savedKey = key
         savedResponse = data
     }
 
-    override fun fetchApiDetails(key: String): Any? {
+    override suspend fun fetchApiDetails(key: String): Any? {
         TODO("Not yet implemented")
     }
 }

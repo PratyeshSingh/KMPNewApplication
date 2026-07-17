@@ -1,19 +1,19 @@
 package com.api.cache
 
 interface ApiCacheHolder {
-    fun saveApiDetails(key: String, data: Any)
+    suspend fun saveApiDetails(key: String, data: Any)
 
-    fun fetchApiDetails(key: String): Any?
+    suspend fun fetchApiDetails(key: String): Any?
 }
 
 object RealApiCacheHolder : ApiCacheHolder {
     private val apiMapHolders: HashMap<String, Any> = HashMap()
 
-    override fun saveApiDetails(key: String, values: Any) {
-        apiMapHolders[key] = values
+    override suspend fun saveApiDetails(key: String, data: Any) {
+        apiMapHolders[key] = data
     }
 
-    override fun fetchApiDetails(key: String): Any? {
+    override suspend fun fetchApiDetails(key: String): Any? {
         return apiMapHolders[key]
     }
 }
