@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.koin.core.annotation.KoinViewModel
 
 
 sealed class ProductState {
@@ -19,6 +20,8 @@ sealed class ProductState {
     class Content(val data: List<ProductList>) : ProductState()
 }
 
+
+@KoinViewModel
 class ListViewModel(
     private val listRepository: ListRepository,
 ) : ViewModel() {

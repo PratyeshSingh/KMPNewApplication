@@ -6,6 +6,7 @@ plugins {
 
 
     alias(libs.plugins.kotlinxSerialization)
+    alias(libs.plugins.koinCompiler)
     alias(libs.plugins.kmpNativeCoroutines)
 }
 
@@ -42,6 +43,8 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(projects.foundation.apiCache)
 
+            implementation(libs.koin.core)
+            implementation(libs.koin.annotations)
             implementation(libs.koin.androidx.compose)
         }
 

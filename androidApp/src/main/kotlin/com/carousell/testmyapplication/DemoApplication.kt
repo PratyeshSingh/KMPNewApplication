@@ -9,13 +9,14 @@ class DemoApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
         initKoin(
             listOf(
                 module {
-                    factory { ListViewModel(get()) }
+//                    initKoin now automatically includes ListViewModel via SharedApp / ProductListModule
+//                    factory { ListViewModel(get()) }
                 }
             )
         )
-
     }
 }

@@ -1,8 +1,9 @@
 package com.product.details
 
+import com.api.cache.ApiCacheModule
+import org.koin.core.annotation.ComponentScan
+import org.koin.core.annotation.Module
 
-import org.koin.dsl.module
-
-val productDetailsModule = module {
-    factory { ProductDetailsViewModel(get()) }
-}
+@Module(includes = [ApiCacheModule::class])
+@ComponentScan("com.product.details")
+class ProductDetailsModule

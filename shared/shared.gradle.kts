@@ -7,7 +7,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
 
     alias(libs.plugins.kotlinxSerialization)
-//    alias(libs.plugins.ksp)
+    alias(libs.plugins.koinCompiler)
     alias(libs.plugins.kmpNativeCoroutines)
 }
 
@@ -82,9 +82,11 @@ kotlin {
             implementation(projects.api.productList)
             implementation(projects.features.productList)
             implementation(projects.features.productDetails)
+            implementation(projects.foundation.apiCache)
 
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
+            implementation(libs.koin.annotations)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

@@ -12,8 +12,10 @@ import io.ktor.client.request.post
 import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 import io.ktor.util.reflect.TypeInfo
+import org.koin.core.annotation.Single
 import kotlin.reflect.KClass
 
+@Single
 class AppNetworkClient(
     private val httpClient: HttpClient,
 ) {

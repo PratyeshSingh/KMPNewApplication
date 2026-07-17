@@ -6,7 +6,7 @@ interface HeaderProvider {
     fun getHeaders(): Map<String, String>
 }
 
-class DefaultHeaderProvider : HeaderProvider {
+internal class DefaultHeaderProvider : HeaderProvider {
     override fun getHeaders(): Map<String, String> {
         return mapOf(
             "X-Platform" to "KMP",

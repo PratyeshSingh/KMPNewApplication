@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidMultiplatformLibrary)
+    alias(libs.plugins.koinCompiler)
 }
 
 kotlin {
@@ -29,7 +30,8 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-//            implementation(libs.compose.runtime)
+            implementation(libs.koin.core)
+            implementation(libs.koin.annotations)
         }
     }
 }

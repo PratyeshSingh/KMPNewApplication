@@ -1,7 +1,6 @@
 package com.carousell.testmyapplication.network.ktor.core.di
 
 import com.carousell.testmyapplication.logger.logMessage
-import com.carousell.testmyapplication.network.ktor.core.AppNetworkClient
 import com.carousell.testmyapplication.network.ktor.core.DefaultHeaderProvider
 import com.carousell.testmyapplication.network.ktor.core.HeaderProvider
 import com.carousell.testmyapplication.network.ktor.core.installRequestInterceptor
@@ -22,7 +21,9 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.json.Json
-import org.koin.dsl.module
+import org.koin.core.annotation.ComponentScan
+import org.koin.core.annotation.Module
+import org.koin.core.annotation.Single
 
 // Guard to prevent concurrent multiple 401 token refresh API calls
 private val tokenRefreshMutex = Mutex()
@@ -120,9 +121,12 @@ private fun createHttpClient(headerProvider: HeaderProvider): HttpClient {
     }
 }
 
-val networkModule = module {
-    logMessage("NetworkModule :: STEP1")
-    single<HeaderProvider> { DefaultHeaderProvider() }
-    single { AppNetworkClient(createHttpClient(get())) }
-    logMessage("NetworkModule :: STEP2")
+@Module
+@ComponentScan("com.carousell.testmyapplication.network.ktor.core")
+class NetworkModule {
+    @Single
+    fun headerProvider(): HeaderProvider = DefaultHeaderProvider()
+
+    @Single
+    fun httpClient(headerProvider: HeaderProvider): HttpClient = createHttpClient(headerProvider)
 }
