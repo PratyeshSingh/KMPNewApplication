@@ -7,7 +7,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
 
     alias(libs.plugins.kotlinxSerialization)
-//    alias(libs.plugins.ksp)
+    alias(libs.plugins.koinCompiler)
     alias(libs.plugins.kmpNativeCoroutines)
 }
 
@@ -74,6 +74,7 @@ kotlin {
 
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
+            implementation(libs.koin.annotations)
         }
     }
 }

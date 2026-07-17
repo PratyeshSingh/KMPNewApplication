@@ -4,6 +4,7 @@ import com.api.product.list.data.ProductListResponse
 import com.carousell.testmyapplication.network.ktor.core.AppNetworkClient
 import com.carousell.testmyapplication.network.ktor.core.AppNetworkRequest
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
+import org.koin.core.annotation.Single
 
 interface ProductListApi {
     @NativeCoroutines
@@ -13,7 +14,8 @@ interface ProductListApi {
     suspend fun searchProduct(searchQuery: String): ProductListResponse?
 }
 
-class ProductListApiImpl(private val client: AppNetworkClient) : ProductListApi {
+@Single
+internal class ProductListApiImpl(private val client: AppNetworkClient) : ProductListApi {
     companion object {
         private const val API_PATH_PRODUCT_LIST = "/products"
         private const val API_PATH_SEARCH_PRODUCT = "/products/search?q="

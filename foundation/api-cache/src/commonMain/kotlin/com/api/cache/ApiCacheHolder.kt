@@ -1,12 +1,15 @@
 package com.api.cache
 
+import org.koin.core.annotation.Single
+
 interface ApiCacheHolder {
     suspend fun saveApiDetails(key: String, data: Any)
 
     suspend fun fetchApiDetails(key: String): Any?
 }
 
-object RealApiCacheHolder : ApiCacheHolder {
+@Single
+internal class RealApiCacheHolder : ApiCacheHolder {
     private val apiMapHolders: HashMap<String, Any> = HashMap()
 
     override suspend fun saveApiDetails(key: String, data: Any) {

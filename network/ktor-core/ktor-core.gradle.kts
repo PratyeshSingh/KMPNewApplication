@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidMultiplatformLibrary) // or androidLibrary
+    alias(libs.plugins.koinCompiler)
 }
 
 kotlin {
@@ -42,6 +43,7 @@ kotlin {
             implementation(libs.ktor.client.logging)
 
             implementation(libs.koin.core)
+            implementation(libs.koin.annotations)
 
             implementation(projects.foundation.logger)
             implementation(projects.foundation.hostUrl)

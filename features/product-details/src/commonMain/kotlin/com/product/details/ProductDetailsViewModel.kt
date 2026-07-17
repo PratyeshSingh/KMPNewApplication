@@ -12,6 +12,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
+import org.koin.core.annotation.KoinViewModel
+
+@KoinViewModel
 class ProductDetailsViewModel(
     private val apiCacheHolder: ApiCacheHolder
 ) : ViewModel() {

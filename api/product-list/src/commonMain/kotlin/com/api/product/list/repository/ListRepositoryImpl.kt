@@ -3,9 +3,11 @@ package com.api.product.list.repository
 import com.api.cache.ApiCacheHolder
 import com.api.product.list.ProductListApi
 import com.api.product.list.data.ProductListResponse
+import org.koin.core.annotation.Single
 
 
-class ListRepositoryImpl(
+@Single
+internal class ListRepositoryImpl(
     private val productListApi: ProductListApi,
     private val apiCacheHolder: ApiCacheHolder
 ) : ListRepository {
