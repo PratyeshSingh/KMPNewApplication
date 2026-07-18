@@ -64,8 +64,8 @@ jobs:
         with:
           cache-read-only: ${{ github.event_name == 'pull_request' }}
 
-      - name: Run JVM & Common Tests
-        run: ./gradlew jvmTest
+      - name: Run Unit Tests
+        run: ./gradlew allTests
 
       - name: Build Android App
         # Explicitly targets your application module
@@ -92,4 +92,5 @@ jobs:
 
       - name: Build iOS Framework
         # Safely tests iOS compilation by linking your 'shared' module framework
+        # :shared:embedAndSignAppleFrameworkForXcode
         run: ./gradlew :shared:linkDebugFrameworkIosSimulatorArm64
