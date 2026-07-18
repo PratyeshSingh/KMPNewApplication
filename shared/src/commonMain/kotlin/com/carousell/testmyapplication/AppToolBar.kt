@@ -1,6 +1,5 @@
 package com.carousell.testmyapplication
 
-
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
@@ -26,11 +25,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
-import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
 import kmpnewapplication.shared.generated.resources.Res
 import kmpnewapplication.shared.generated.resources.cd_more_info
 import kmpnewapplication.shared.generated.resources.more_vert
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,32 +56,36 @@ fun AppToolBar(
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
                     // 1. Set the IME Action to Search or Done
-                    keyboardOptions = KeyboardOptions(
-                        imeAction = ImeAction.Search // Renders a magnifying glass icon on the keyboard
-                    ),
+                    keyboardOptions =
+                        KeyboardOptions(
+                            // Renders a magnifying glass icon on the keyboard
+                            imeAction = ImeAction.Search,
+                        ),
                     // 2. Handle the click action
-                    keyboardActions = KeyboardActions(
-                        onSearch = {
-                            // This triggers when the user clicks the search/done button on the keyboard
-                            onSearchQuery(searchQuery)
+                    keyboardActions =
+                        KeyboardActions(
+                            onSearch = {
+                                // This triggers when the user clicks the search/done button on the keyboard
+                                onSearchQuery(searchQuery)
 
-                            // Optional: If you want to close the keyboard or exit search mode automatically:
-                             isSearchActive = false
-                        }
-                    ),
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent,
-                        disabledContainerColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        focusedTextColor = MaterialTheme.colorScheme.onSecondary
-                    )
+                                // Optional: If you want to close the keyboard or exit search mode automatically:
+                                isSearchActive = false
+                            },
+                        ),
+                    colors =
+                        TextFieldDefaults.colors(
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent,
+                            disabledContainerColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            focusedTextColor = MaterialTheme.colorScheme.onSecondary,
+                        ),
                 )
             } else {
                 Text(
                     text = title,
-                    color = MaterialTheme.colorScheme.onSecondary
+                    color = MaterialTheme.colorScheme.onSecondary,
                 )
             }
         },
@@ -104,7 +107,7 @@ fun AppToolBar(
                     Icon(
                         imageVector = Icons.Default.Clear,
                         contentDescription = "Close Search",
-                        tint = Color.White
+                        tint = Color.White,
                     )
                 }
             } else {
@@ -113,7 +116,7 @@ fun AppToolBar(
                     Icon(
                         imageVector = Icons.Default.Search,
                         contentDescription = "Search",
-                        tint = Color.White
+                        tint = Color.White,
                     )
                 }
 
@@ -124,7 +127,7 @@ fun AppToolBar(
                         Icon(
                             painter = painterResource(Res.drawable.more_vert),
                             contentDescription = stringResource(Res.string.cd_more_info),
-                            tint = Color.White
+                            tint = Color.White,
                         )
                     }
                     FeedDropdownMenu(
@@ -138,6 +141,6 @@ fun AppToolBar(
                     )
                 }
             }
-        }
+        },
     )
 }

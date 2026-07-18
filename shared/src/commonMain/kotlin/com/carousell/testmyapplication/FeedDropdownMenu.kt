@@ -5,10 +5,10 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import org.jetbrains.compose.resources.stringResource
 import kmpnewapplication.shared.generated.resources.Res
 import kmpnewapplication.shared.generated.resources.popular
 import kmpnewapplication.shared.generated.resources.recent
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun FeedDropdownMenu(
@@ -20,7 +20,7 @@ fun FeedDropdownMenu(
     DropdownMenu(
         modifier = modifier,
         expanded = expanded,
-        onDismissRequest = onDismissRequest
+        onDismissRequest = onDismissRequest,
     ) {
         DropdownMenuItem(
             onClick = {
@@ -28,7 +28,7 @@ fun FeedDropdownMenu(
             },
             text = {
                 Text(text = stringResource(Res.string.recent))
-            }
+            },
         )
         DropdownMenuItem(
             onClick = {
@@ -36,7 +36,7 @@ fun FeedDropdownMenu(
             },
             text = {
                 Text(text = stringResource(Res.string.popular))
-            }
+            },
         )
     }
 }

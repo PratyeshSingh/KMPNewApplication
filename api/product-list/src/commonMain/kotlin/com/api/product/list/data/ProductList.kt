@@ -8,7 +8,7 @@ data class ProductListResponse(
     val limit: Long,
     val products: List<ProductList> = emptyList(),
     val skip: Long,
-    val total: Long
+    val total: Long,
 )
 
 @Serializable
@@ -19,5 +19,5 @@ data class ProductList(
     @JsonNames(names = ["warrantyInformation"]) val warrantyInformation: String? = null,
     @JsonNames(names = ["brand"]) val brand: String? = null,
     @JsonNames(names = ["category"]) val category: String? = null,
-    @JsonNames(names = ["id"]) val id: Long
+    @JsonNames(names = ["id"]) val id: Long,
 )

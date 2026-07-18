@@ -1,7 +1,5 @@
 package com.carousell.testmyapplication.network.ktor.core
 
-import io.ktor.client.request.header
-
 interface HeaderProvider {
     fun getHeaders(): Map<String, String>
 }

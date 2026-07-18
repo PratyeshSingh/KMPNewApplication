@@ -10,18 +10,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
-
 @Composable
-fun Loader(
-    modifier: Modifier = Modifier
-) {
+fun Loader(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         CircularProgressIndicator(
             modifier = Modifier.size(50.dp),
-            color = Color.Red
+            color = Color.Red,
         )
     }
 }

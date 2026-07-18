@@ -11,4 +11,19 @@ plugins {
     alias(libs.plugins.kmpNativeCoroutines) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.koinCompiler) apply false
+
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.ktlint)
+    alias(libs.plugins.dependencyAnalysis)
+}
+
+// Automatically enforces linting and code styles across all your distinct modules
+subprojects {
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
+    apply(plugin = "io.gitlab.arturbosch.detekt")
+
+    detekt {
+        buildUponDefaultConfig = true
+        allRules = false
+    }
 }

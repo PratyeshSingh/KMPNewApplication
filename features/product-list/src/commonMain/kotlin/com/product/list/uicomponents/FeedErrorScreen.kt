@@ -20,22 +20,21 @@ import com.product.list.viewmodel.ProductAction
 import com.product.list.viewmodel.ProductActionHandler
 import org.jetbrains.compose.resources.stringResource
 
-
 @Composable
 fun FeedErrorScreen(
     productAction: ProductActionHandler,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = stringResource(Res.string.feed_loading_failed),
             modifier = Modifier.padding(20.dp),
             fontSize = 16.sp,
-            color = MaterialTheme.colorScheme.error
+            color = MaterialTheme.colorScheme.error,
         )
 
         Button(
@@ -46,7 +45,7 @@ fun FeedErrorScreen(
             Text(
                 text = stringResource(Res.string.retry),
                 modifier = Modifier.padding(10.dp),
-                fontSize = 16.sp
+                fontSize = 16.sp,
             )
         }
     }

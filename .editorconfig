@@ -1,0 +1,16 @@
+[*.{kt,kts}]
+# For ktlint < 1.0
+ktlint_function_naming_ignore_when_annotated_with = Composable
+# For ktlint >= 1.0
+ktlint_standard_function-naming_ignore-when-annotated-with = Composable
+
+# Ignore a specific file by name
+[MainViewController.kt]
+ktlint = disabled
+
+[**/Res.kt]
+ktlint = disabled
+
+# Ignore everything inside a specific folder (like generated code)
+[**/generated/**.kt]
+ktlint = disabled

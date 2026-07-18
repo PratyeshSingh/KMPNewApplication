@@ -21,68 +21,73 @@ class AppNetworkClient(
 ) {
     suspend fun <T : Any> get(
         appNetworkRequest: AppNetworkRequest,
-        className: KClass<T>
+        className: KClass<T>,
     ): T {
         val urlString = BaseUrl.getHostURL().plus(appNetworkRequest.apiPath)
 
-        val response = httpClient.get(urlString) {
-            applyRequestParams(appNetworkRequest)
-        }
+        val response =
+            httpClient.get(urlString) {
+                applyRequestParams(appNetworkRequest)
+            }
 
         return response.body(TypeInfo(type = className, null))
     }
 
     suspend fun <T : Any> post(
         appNetworkRequest: AppNetworkRequest,
-        className: KClass<T>
+        className: KClass<T>,
     ): T {
         val urlString = BaseUrl.getHostURL().plus(appNetworkRequest.apiPath)
 
-        val response = httpClient.post(urlString) {
-            applyRequestParams(appNetworkRequest)
-            setBody(appNetworkRequest.requestBody)
-        }
+        val response =
+            httpClient.post(urlString) {
+                applyRequestParams(appNetworkRequest)
+                setBody(appNetworkRequest.requestBody)
+            }
 
         return response.body(TypeInfo(type = className, null))
     }
 
     suspend fun <T : Any> put(
         appNetworkRequest: AppNetworkRequest,
-        className: KClass<T>
+        className: KClass<T>,
     ): T {
         val urlString = BaseUrl.getHostURL().plus(appNetworkRequest.apiPath)
 
-        val response = httpClient.put(urlString) {
-            applyRequestParams(appNetworkRequest)
-            setBody(appNetworkRequest.requestBody)
-        }
+        val response =
+            httpClient.put(urlString) {
+                applyRequestParams(appNetworkRequest)
+                setBody(appNetworkRequest.requestBody)
+            }
 
         return response.body(TypeInfo(type = className, null))
     }
 
     suspend fun <T : Any> delete(
         appNetworkRequest: AppNetworkRequest,
-        className: KClass<T>
+        className: KClass<T>,
     ): T {
         val urlString = BaseUrl.getHostURL().plus(appNetworkRequest.apiPath)
 
-        val response = httpClient.delete(urlString) {
-            applyRequestParams(appNetworkRequest)
-        }
+        val response =
+            httpClient.delete(urlString) {
+                applyRequestParams(appNetworkRequest)
+            }
 
         return response.body(TypeInfo(type = className, null))
     }
 
     suspend fun <T : Any> patch(
         appNetworkRequest: AppNetworkRequest,
-        className: KClass<T>
+        className: KClass<T>,
     ): T {
         val urlString = BaseUrl.getHostURL().plus(appNetworkRequest.apiPath)
 
-        val response = httpClient.patch(urlString) {
-            applyRequestParams(appNetworkRequest)
-            setBody(appNetworkRequest.requestBody)
-        }
+        val response =
+            httpClient.patch(urlString) {
+                applyRequestParams(appNetworkRequest)
+                setBody(appNetworkRequest.requestBody)
+            }
 
         return response.body(TypeInfo(type = className, null))
     }

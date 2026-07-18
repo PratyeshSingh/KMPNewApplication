@@ -28,7 +28,6 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
 
-
     android {
         namespace = "com.product.list"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
@@ -60,7 +59,6 @@ kotlin {
             implementation(libs.kotlinx.serialization.core)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
-
 
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor)

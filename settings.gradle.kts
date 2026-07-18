@@ -30,7 +30,11 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-fun include(name: String, filePath: String? = null) {
+
+fun include(
+    name: String,
+    filePath: String? = null,
+) {
     settings.include(name)
     val project = project(name)
     project.configureProjectDir(filePath)
@@ -50,7 +54,6 @@ fun ProjectDescriptor.configureProjectDir(filePath: String? = null) {
 }
 
 fun ProjectDescriptor.configureBuildFileName(projectName: String) {
-
     val name = projectName.substringAfterLast(":")
     buildFileName = "$name.gradle.kts"
     if (!buildFile.exists()) {
