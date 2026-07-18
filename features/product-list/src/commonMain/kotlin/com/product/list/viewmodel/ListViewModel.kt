@@ -13,20 +13,19 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.koin.core.annotation.KoinViewModel
 
-
 sealed class ProductState {
     data object Loading : ProductState()
+
     data object Error : ProductState()
+
     class Content(val data: List<ProductList>) : ProductState()
 }
-
 
 @KoinViewModel
 class ListViewModel(
     private val listRepository: ListRepository,
 ) : ViewModel() {
-
-    private var mSearchText : String = ""
+    private var mSearchText: String = ""
     private val _state = MutableStateFlow<ProductState>(ProductState.Loading)
 
     @NativeCoroutines

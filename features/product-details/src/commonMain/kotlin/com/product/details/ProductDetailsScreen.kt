@@ -34,12 +34,11 @@ import com.api.product.list.data.ProductList
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
-
 @Composable
 fun ProductDetailsScreen(
     item: String,
     topBar: @Composable () -> Unit = {},
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     val viewModel: ProductDetailsViewModel = koinViewModel()
     LaunchedEffect(item) {
@@ -50,24 +49,25 @@ fun ProductDetailsScreen(
     AnimatedContent(true) {
         Scaffold(
             topBar = topBar,
-            containerColor = MaterialTheme.colorScheme.background
+            containerColor = MaterialTheme.colorScheme.background,
         ) { innerPadding ->
             product?.let {
                 ProductDetailsBody(
                     modifier = Modifier.padding(innerPadding),
                     onClick = onClick,
-                    item = product
+                    item = product,
                 )
-            }?:run {
+            } ?: run {
                 Box(
-                    modifier = Modifier
-                        .padding(innerPadding)
-                        .fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                    modifier =
+                        Modifier
+                            .padding(innerPadding)
+                            .fillMaxSize(),
+                    contentAlignment = Alignment.Center,
                 ) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(50.dp),
-                        color = Color.Red
+                        color = Color.Red,
                     )
                 }
             }
@@ -75,24 +75,24 @@ fun ProductDetailsScreen(
     }
 }
 
-
 @Composable
 private fun ProductDetailsBody(
     item: ProductList,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Column(
         modifier
-            .verticalScroll(rememberScrollState())
+            .verticalScroll(rememberScrollState()),
     ) {
         AsyncImage(
             model = item.thumbnail,
             contentDescription = item.title,
             contentScale = ContentScale.FillWidth,
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.LightGray)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .background(Color.LightGray),
         )
 
         SelectionContainer {
@@ -102,7 +102,7 @@ private fun ProductDetailsBody(
                 LabeledInfo(stringResource(Res.string.label_brand), item.brand.orEmpty())
                 LabeledInfo(
                     stringResource(Res.string.label_warranty),
-                    item.warrantyInformation.orEmpty()
+                    item.warrantyInformation.orEmpty(),
                 )
                 LabeledInfo(stringResource(Res.string.label_category), item.category.orEmpty())
                 LabeledInfo(stringResource(Res.string.label_description), item.description.orEmpty())
@@ -125,7 +125,7 @@ private fun LabeledInfo(
                     append("$label: ")
                 }
                 append(data)
-            }
+            },
         )
     }
 }

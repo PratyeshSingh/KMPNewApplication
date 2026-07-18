@@ -17,18 +17,16 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.product.details.ProductDetailsScreen
 import com.product.list.uicomponents.ProductListScreen
-import kotlinx.serialization.Serializable
-import org.jetbrains.compose.resources.stringResource
 import kmpnewapplication.shared.generated.resources.Res
 import kmpnewapplication.shared.generated.resources.app_home_title
-
+import kotlinx.serialization.Serializable
+import org.jetbrains.compose.resources.stringResource
 
 @Serializable
 object ListDestination
 
 @Serializable
 data class DetailDestination(val itemID: String)
-
 
 @Composable
 fun App() {
@@ -37,7 +35,7 @@ fun App() {
             val navController: NavHostController = rememberNavController()
             NavHost(
                 navController = navController,
-                startDestination = ListDestination
+                startDestination = ListDestination,
             ) {
                 composable<ListDestination> {
                     val searchText = rememberSaveable { mutableStateOf("") }
@@ -50,13 +48,12 @@ fun App() {
                             AppToolBar(
                                 title = stringResource(Res.string.app_home_title),
                                 onClick = {
-
                                 },
                                 onSearchQuery = {
                                     searchText.value = it
-                                }
+                                },
                             )
-                        }
+                        },
                     )
                 }
                 composable<DetailDestination> { backStackEntry ->
@@ -69,19 +66,18 @@ fun App() {
                                     IconButton(onClick = navController::popBackStack) {
                                         Icon(
                                             Icons.AutoMirrored.Filled.ArrowBack,
-                                            stringResource(Res.string.app_home_title)
+                                            stringResource(Res.string.app_home_title),
                                         )
                                     }
-                                }
+                                },
                             )
                         },
                         onClick = {
                             navController.popBackStack()
-                        }
+                        },
                     )
                 }
             }
         }
     }
 }
-

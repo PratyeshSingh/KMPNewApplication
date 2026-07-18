@@ -23,19 +23,21 @@ internal class ProductListApiImpl(private val client: AppNetworkClient) : Produc
 
     override suspend fun getProductList(): ProductListResponse {
         return client.get(
-            appNetworkRequest = AppNetworkRequest(
-                apiPath = API_PATH_PRODUCT_LIST
-            ),
-            className = ProductListResponse::class
+            appNetworkRequest =
+                AppNetworkRequest(
+                    apiPath = API_PATH_PRODUCT_LIST,
+                ),
+            className = ProductListResponse::class,
         )
     }
 
     override suspend fun searchProduct(searchQuery: String): ProductListResponse {
         return client.get(
-            appNetworkRequest = AppNetworkRequest(
-                apiPath = API_PATH_SEARCH_PRODUCT.plus(searchQuery)
-            ),
-            className = ProductListResponse::class
+            appNetworkRequest =
+                AppNetworkRequest(
+                    apiPath = API_PATH_SEARCH_PRODUCT.plus(searchQuery),
+                ),
+            className = ProductListResponse::class,
         )
     }
 }

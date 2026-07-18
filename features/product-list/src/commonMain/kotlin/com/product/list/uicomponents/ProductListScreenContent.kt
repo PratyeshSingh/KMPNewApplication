@@ -32,7 +32,7 @@ internal fun ProductListScreenContent(
 ) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(180.dp),
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
     ) {
         items(products, key = { it.id }) { item ->
             ProductFrame(
@@ -54,16 +54,17 @@ private fun ProductFrame(
             .padding(8.dp)
             .clickable {
                 productAction(ProductAction.ViewDetail(item.id.toString()))
-            }
+            },
     ) {
         AsyncImage(
             model = item.thumbnail,
             contentDescription = item.title,
             contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(1f)
-                .background(Color.LightGray),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(1f)
+                    .background(Color.LightGray),
         )
 
         Spacer(Modifier.height(2.dp))

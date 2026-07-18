@@ -18,6 +18,7 @@ import org.koin.compose.viewmodel.koinViewModel
 
 private sealed interface ListAction {
     data class SearchAction(val keyWord: String) : ListAction
+
     data object ProductListAction : ListAction
 }
 private typealias ListActionHandler = (ListAction) -> Unit
@@ -27,7 +28,7 @@ fun ProductListScreen(
     searchQuery: String,
     topBar: @Composable () -> Unit = {},
     navigateToDetails: (item: String) -> Unit,
-    viewModel: ListViewModel = koinViewModel()
+    viewModel: ListViewModel = koinViewModel(),
 ) {
     fun actionHandler(actions: ListAction) {
         when (actions) {
@@ -43,7 +44,7 @@ fun ProductListScreen(
 
     Scaffold(
         topBar = topBar,
-        containerColor = MaterialTheme.colorScheme.background
+        containerColor = MaterialTheme.colorScheme.background,
     ) { innerPadding ->
         ProductListBody(
             state = viewModel.state.collectAsStateWithLifecycle().value,
@@ -51,7 +52,7 @@ fun ProductListScreen(
             navigateToDetails = navigateToDetails,
             searchQuery = searchQuery,
             actions = ::actionHandler,
-            vmActions = viewModel::actionHandler
+            vmActions = viewModel::actionHandler,
         )
     }
 }
@@ -63,7 +64,7 @@ private fun ProductListBody(
     modifier: Modifier = Modifier,
     navigateToDetails: (item: String) -> Unit,
     actions: ListActionHandler,
-    vmActions: (ProductAction) -> Unit
+    vmActions: (ProductAction) -> Unit,
 ) {
     var hasLoadedInitially by rememberSaveable { mutableStateOf(false) }
 
@@ -98,9 +99,8 @@ private fun ProductListBody(
         ProductState.Error -> {
             FeedErrorScreen(
                 modifier = modifier,
-                productAction = vmActions
+                productAction = vmActions,
             )
         }
-
     }
 }

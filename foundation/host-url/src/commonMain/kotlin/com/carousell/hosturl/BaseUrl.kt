@@ -1,7 +1,6 @@
 package com.carousell.hosturl
 
 object BaseUrl {
-
     private const val API_HOST_PROD = "https://prod.dummyjson.com"
     private const val API_HOST_DEBUG = "https://dummyjson.com"
 
@@ -12,5 +11,4 @@ object BaseUrl {
             API_HOST_PROD
         }
     }
-
 }

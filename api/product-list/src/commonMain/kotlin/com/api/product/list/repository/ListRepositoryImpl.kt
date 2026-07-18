@@ -5,13 +5,11 @@ import com.api.product.list.ProductListApi
 import com.api.product.list.data.ProductListResponse
 import org.koin.core.annotation.Single
 
-
 @Single
 internal class ListRepositoryImpl(
     private val productListApi: ProductListApi,
-    private val apiCacheHolder: ApiCacheHolder
+    private val apiCacheHolder: ApiCacheHolder,
 ) : ListRepository {
-
     override suspend fun getList(): ProductListResponse? {
         // handle local storage here for offline first approach
         val response = productListApi.getProductList()

@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidMultiplatformLibrary) // or androidLibrary
 
-
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.koinCompiler)
     alias(libs.plugins.kmpNativeCoroutines)

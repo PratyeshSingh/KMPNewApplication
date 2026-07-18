@@ -30,10 +30,11 @@ private val tokenRefreshMutex = Mutex()
 private const val REQ_TIMEOUT = 60000L
 
 private fun createHttpClient(headerProvider: HeaderProvider): HttpClient {
-    val json = Json {
-        ignoreUnknownKeys = true
-        coerceInputValues = true
-    }
+    val json =
+        Json {
+            ignoreUnknownKeys = true
+            coerceInputValues = true
+        }
 
     return HttpClient {
         installRequestInterceptor()
@@ -62,7 +63,7 @@ private fun createHttpClient(headerProvider: HeaderProvider): HttpClient {
             retryOnExceptionIf { _, cause ->
                 // Recover on socket, network connection timeouts or drops
                 cause is io.ktor.client.network.sockets.ConnectTimeoutException ||
-                        cause is io.ktor.client.network.sockets.SocketTimeoutException
+                    cause is io.ktor.client.network.sockets.SocketTimeoutException
             }
             exponentialDelay(base = 2.0, maxDelayMs = 4000)
         }
@@ -79,7 +80,7 @@ private fun createHttpClient(headerProvider: HeaderProvider): HttpClient {
                     // Normally loaded from Multiplatform Settings / DataStore
                     BearerTokens(
                         accessToken = "ACCESS_TOKEN_HERE",
-                        refreshToken = "REFRESH_TOKEN_HERE"
+                        refreshToken = "REFRESH_TOKEN_HERE",
                     )
                 }
 
@@ -112,11 +113,12 @@ private fun createHttpClient(headerProvider: HeaderProvider): HttpClient {
         // 4. DEVELOPMENT LOGGING (Helps diagnose network payloads)
         install(Logging) {
             level = LogLevel.ALL
-            logger = object : io.ktor.client.plugins.logging.Logger {
-                override fun log(message: String) {
-                    logMessage(message)
+            logger =
+                object : io.ktor.client.plugins.logging.Logger {
+                    override fun log(message: String) {
+                        logMessage(message)
+                    }
                 }
-            }
         }
     }
 }

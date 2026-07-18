@@ -11,18 +11,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-
 import org.koin.core.annotation.KoinViewModel
 
 @KoinViewModel
 class ProductDetailsViewModel(
-    private val apiCacheHolder: ApiCacheHolder
+    private val apiCacheHolder: ApiCacheHolder,
 ) : ViewModel() {
-
     private val _state = MutableStateFlow<ProductList?>(null)
+
     @NativeCoroutines
     val state: StateFlow<ProductList?> = _state.asStateFlow()
-
 
     fun getProductDetails(itemID: String) {
         viewModelScope.launch(Dispatchers.IO) {
