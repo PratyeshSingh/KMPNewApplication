@@ -74,6 +74,25 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.koin.annotations)
         }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.koin.test)
+            implementation(libs.turbine)
+
+            // Compose Multiplatform Test Library
+            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+            implementation(compose.uiTest)
+        }
+        val androidHostTest by getting {
+            dependencies {
+                implementation(libs.robolectric)
+                implementation(libs.androidx.activity.compose)
+                implementation(libs.androidx.testExt.junit)
+                implementation(libs.androidx.test.core)
+                implementation(libs.androidx.compose.ui.test.manifest)
+            }
+        }
     }
 }
 

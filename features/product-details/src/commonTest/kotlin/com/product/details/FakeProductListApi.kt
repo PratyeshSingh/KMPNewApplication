@@ -1,4 +1,4 @@
-package com.api.product
+package com.product.details
 
 import com.api.cache.ApiCacheHolder
 import com.api.product.list.ProductListApi
