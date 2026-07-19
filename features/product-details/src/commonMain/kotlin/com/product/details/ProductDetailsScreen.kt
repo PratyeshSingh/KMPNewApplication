@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -66,7 +67,9 @@ fun ProductDetailsScreen(
                     contentAlignment = Alignment.Center,
                 ) {
                     CircularProgressIndicator(
-                        modifier = Modifier.size(50.dp),
+                        modifier =
+                            Modifier.size(50.dp)
+                                .testTag("loading_indicator"),
                         color = Color.Red,
                     )
                 }
