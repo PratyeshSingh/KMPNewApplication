@@ -1,0 +1,22 @@
+name: Gemini AI PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened] # Runs when a PR is created or updated
+
+jobs:
+  gemini-code-review:
+    name: Code Review
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Required to see the diff between commits
+
+      - name: Gemini Code Review
+        uses: rohit-chouhan/gemini-code-review-action@v1.4 # A popular, reliable marketplace action
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }} # Automatically provided by GitHub
+          gemini_api_key: ${{ secrets.GEMINI_API_KEY }} # The secret you just created
+          model: "gemini-1.5-flash" # Fast and cost-effective for PR reviews
