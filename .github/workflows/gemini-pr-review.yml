@@ -12,6 +12,7 @@ permissions:
   pull-requests: write
   contents: read
 
+
 jobs:
   gemini-code-review:
     name: Code Review
