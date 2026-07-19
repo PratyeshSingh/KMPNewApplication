@@ -45,6 +45,8 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.annotations)
 
+            implementation(libs.kotlinx.datetime)
+
             implementation(projects.foundation.logger)
             implementation(projects.foundation.hostUrl)
         }

@@ -5,6 +5,8 @@ import com.carousell.testmyapplication.network.ktor.core.DefaultHeaderProvider
 import com.carousell.testmyapplication.network.ktor.core.HeaderProvider
 import com.carousell.testmyapplication.network.ktor.core.installRequestInterceptor
 import com.carousell.testmyapplication.network.ktor.core.installResponseInterceptor
+import com.carousell.testmyapplication.network.ktor.core.serialization.BooleanIntSerializer
+import com.carousell.testmyapplication.network.ktor.core.serialization.InstantIso8601Serializer
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpRequestRetry
 import io.ktor.client.plugins.HttpTimeout
@@ -20,7 +22,9 @@ import io.ktor.http.ContentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlin.time.Instant
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
 import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.Module
 import org.koin.core.annotation.Single
@@ -34,6 +38,11 @@ private fun createHttpClient(headerProvider: HeaderProvider): HttpClient {
         Json {
             ignoreUnknownKeys = true
             coerceInputValues = true
+            serializersModule = SerializersModule {
+                // Register custom serializers here
+                contextual(Instant::class, InstantIso8601Serializer)
+                contextual(Boolean::class, BooleanIntSerializer)
+            }
         }
 
     return HttpClient {
