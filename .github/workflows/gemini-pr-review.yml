@@ -2,7 +2,11 @@ name: Gemini AI PR Review
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened] # Runs when a PR is created or updated
+    types: [opened, synchronize, reopened]
+
+permissions:
+  pull-requests: write
+  contents: read
 
 jobs:
   gemini-code-review:
@@ -12,11 +16,52 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Required to see the diff between commits
+          fetch-depth: 0 # Fetches full history so git diff works perfectly
 
-      - name: Gemini Code Review
-        uses: rohit-chouhan/gemini-code-review-action@v1.4 # A popular, reliable marketplace action
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }} # Automatically provided by GitHub
-          gemini_api_key: ${{ secrets.GEMINI_API_KEY }} # The secret you just created
-          model: "gemini-1.5-flash" # Fast and cost-effective for PR reviews
+      - name: Generate Code Review via Gemini API
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # 1. Get the lines of code changed in this Pull Request
+          git diff origin/${{ github.base_ref }}...HEAD > pr_diff.txt
+          
+          # Clean up any characters that might break JSON format
+          DIFF_CONTENT=$(cat pr_diff.txt | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | awk '{printf "%s\\n", $0}')
+
+          if [ -z "$DIFF_CONTENT" ]; then
+            echo "No code changes detected."
+            exit 0
+          fi
+
+          # 2. Build the payload instructing Gemini 1.5 Flash to act as an expert code reviewer
+          PROMPT="You are an expert mobile developer reviewing a Kotlin Multiplatform (KMP) pull request. Analyze the following git diff for potential bugs, optimization opportunities, clean architecture adherence, and memory leaks. Provide feedback directly, concisely, and cleanly as bullet points or brief markdown blocks.\n\nDiff:\n$DIFF_CONTENT"
+
+          PAYLOAD=$(cat <<EOF
+          {
+            "contents": [{
+              "parts":[{"text": "$PROMPT"}]
+            }]
+          }
+          EOF
+          )
+
+          # 3. Call the Gemini API directly
+          RESPONSE=$(curl -s -X POST \
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}" \
+            -H "Content-Type: application/json" \
+            -d "$PAYLOAD")
+
+          # 4. Parse the generated markdown text response
+          REVIEW_TEXT=$(echo "$RESPONSE" | jq -r '.candidates[0].content.parts[0].text')
+
+          if [ "$REVIEW_TEXT" == "null" ] || [ -z "$REVIEW_TEXT" ]; then
+            echo "Failed to retrieve a valid review response from Gemini."
+            echo "API Response: $RESPONSE"
+            exit 1
+          fi
+
+          # 5. Use GitHub's native CLI to post the review comment straight onto the PR
+          echo "### 🤖 Gemini AI Code Review Feedback" > comment.md
+          echo "$REVIEW_TEXT" >> comment.md
+          gh pr comment ${{ github.event.pull_request.number }} --body-file comment.md
