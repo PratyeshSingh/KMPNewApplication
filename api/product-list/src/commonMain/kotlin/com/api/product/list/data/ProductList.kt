@@ -29,8 +29,9 @@ data class ProductList(
 @Serializable
 data class User(
     val id: Int,
+    // API sends 1 or 0
     @Serializable(with = BooleanIntSerializer::class)
-    val isActive: Boolean // API sends 1 or 0
+    val isActive: Boolean,
 )
 
 @Serializable
@@ -39,5 +40,5 @@ data class Product(
     @Serializable(with = InstantIso8601Serializer::class)
     val createdAt: Instant,
     @Serializable(with = InstantLongSerializer::class)
-    val updatedAt: Instant
+    val updatedAt: Instant,
 )
