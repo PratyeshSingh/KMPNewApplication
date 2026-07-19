@@ -1,8 +1,6 @@
 name: Gemini AI PR Review
 
 on:
-  push:
-    branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
 
@@ -29,39 +27,41 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
+          if [ -z "$GEMINI_API_KEY" ]; then
+            echo "Error: GEMINI_API_KEY is not set. Please add it to your repository secrets."
+            exit 1
+          fi
+
           # 1. Get the lines of code changed in this Pull Request
           git diff origin/${{ github.base_ref }}...HEAD > pr_diff.txt
           
-          # Clean up any characters that might break JSON format
-          DIFF_CONTENT=$(cat pr_diff.txt | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | awk '{printf "%s\\n", $0}')
-
-          if [ -z "$DIFF_CONTENT" ]; then
+          if [ ! -s pr_diff.txt ]; then
             echo "No code changes detected."
             exit 0
           fi
 
-          # 2. Build the payload instructing Gemini 1.5 Flash to act as an expert code reviewer
-          PROMPT="You are an expert mobile developer reviewing a Kotlin Multiplatform (KMP) pull request. Analyze the following git diff for potential bugs, optimization opportunities, clean architecture adherence, and memory leaks. Provide feedback directly, concisely, and cleanly as bullet points or brief markdown blocks.\n\nDiff:\n$DIFF_CONTENT"
+          # 2. Build the payload using jq for safe JSON construction
+          PROMPT_TEXT="You are an expert mobile developer reviewing a Kotlin Multiplatform (KMP) pull request. Analyze the following git diff for potential bugs, optimization opportunities, clean architecture adherence, and memory leaks. Provide feedback directly, concisely, and cleanly as bullet points or brief markdown blocks."
+          DIFF_CONTENT=$(cat pr_diff.txt)
+          FULL_PROMPT="$PROMPT_TEXT\n\nDiff:\n$DIFF_CONTENT"
 
-          PAYLOAD=$(cat <<EOF
-          {
+          PAYLOAD=$(jq -n --arg prompt "$FULL_PROMPT" '{
             "contents": [{
-              "parts":[{"text": "$PROMPT"}]
+              "parts":[{"text": $prompt}]
             }]
-          }
-          EOF
-          )
+          }')
 
           # 3. Call the Gemini API directly
           RESPONSE=$(curl -s -X POST \
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}" \
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent" \
+            -H "x-goog-api-key: ${GEMINI_API_KEY}" \
             -H "Content-Type: application/json" \
             -d "$PAYLOAD")
 
           # 4. Parse the generated markdown text response
-          REVIEW_TEXT=$(echo "$RESPONSE" | jq -r '.candidates[0].content.parts[0].text')
+          REVIEW_TEXT=$(echo "$RESPONSE" | jq -r '.candidates[0].content.parts[0].text // empty')
 
-          if [ "$REVIEW_TEXT" == "null" ] || [ -z "$REVIEW_TEXT" ]; then
+          if [ -z "$REVIEW_TEXT" ] || [ "$REVIEW_TEXT" == "null" ]; then
             echo "Failed to retrieve a valid review response from Gemini."
             echo "API Response: $RESPONSE"
             exit 1
