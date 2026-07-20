@@ -15,7 +15,7 @@ interface ProductListApi {
 }
 
 @Single
-class ProductListApiImpl(private val client: AppNetworkClient) : ProductListApi {
+internal class ProductListApiImpl(private val client: AppNetworkClient) : ProductListApi {
     companion object {
         private const val API_PATH_PRODUCT_LIST = "/products"
         private const val API_PATH_SEARCH_PRODUCT = "/products/search?q="

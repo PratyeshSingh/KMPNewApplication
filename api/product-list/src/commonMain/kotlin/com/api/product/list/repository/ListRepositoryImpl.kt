@@ -6,7 +6,7 @@ import com.api.product.list.data.ProductListResponse
 import org.koin.core.annotation.Single
 
 @Single
-class ListRepositoryImpl(
+internal class ListRepositoryImpl(
     private val productListApi: ProductListApi,
     private val apiCacheHolder: ApiCacheHolder,
 ) : ListRepository {
