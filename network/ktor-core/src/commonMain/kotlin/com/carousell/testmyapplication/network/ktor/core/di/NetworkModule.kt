@@ -5,7 +5,11 @@ import com.carousell.testmyapplication.network.ktor.core.DefaultHeaderProvider
 import com.carousell.testmyapplication.network.ktor.core.HeaderProvider
 import com.carousell.testmyapplication.network.ktor.core.installRequestInterceptor
 import com.carousell.testmyapplication.network.ktor.core.installResponseInterceptor
+import com.carousell.testmyapplication.network.ktor.core.serialization.BooleanIntSerializer
+import com.carousell.testmyapplication.network.ktor.core.serialization.InstantIso8601Serializer
 import io.ktor.client.HttpClient
+import io.ktor.client.network.sockets.ConnectTimeoutException
+import io.ktor.client.network.sockets.SocketTimeoutException
 import io.ktor.client.plugins.HttpRequestRetry
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.auth.Auth
@@ -21,9 +25,11 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
 import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.Module
 import org.koin.core.annotation.Single
+import kotlin.time.Instant
 
 // Guard to prevent concurrent multiple 401 token refresh API calls
 private val tokenRefreshMutex = Mutex()
@@ -34,6 +40,12 @@ private fun createHttpClient(headerProvider: HeaderProvider): HttpClient {
         Json {
             ignoreUnknownKeys = true
             coerceInputValues = true
+            serializersModule =
+                SerializersModule {
+                    // Register custom serializers here
+                    contextual(Instant::class, InstantIso8601Serializer)
+                    contextual(Boolean::class, BooleanIntSerializer)
+                }
         }
 
     return HttpClient {
@@ -62,8 +74,7 @@ private fun createHttpClient(headerProvider: HeaderProvider): HttpClient {
             retryOnServerErrors() // Automatically handles 5xx HTTP codes
             retryOnExceptionIf { _, cause ->
                 // Recover on socket, network connection timeouts or drops
-                cause is io.ktor.client.network.sockets.ConnectTimeoutException ||
-                    cause is io.ktor.client.network.sockets.SocketTimeoutException
+                cause is ConnectTimeoutException || cause is SocketTimeoutException
             }
             exponentialDelay(base = 2.0, maxDelayMs = 4000)
         }
