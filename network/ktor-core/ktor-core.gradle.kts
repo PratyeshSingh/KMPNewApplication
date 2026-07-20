@@ -49,6 +49,7 @@ kotlin {
 
             implementation(projects.foundation.logger)
             implementation(projects.foundation.hostUrl)
+            implementation(projects.foundation.preferences)
         }
     }
 }

@@ -71,5 +71,6 @@ include(":features:product-list")
 include(":foundation:logger")
 include(":foundation:host-url")
 include(":foundation:api-cache")
+include(":foundation:preferences")
 
 include(":api:product-list")

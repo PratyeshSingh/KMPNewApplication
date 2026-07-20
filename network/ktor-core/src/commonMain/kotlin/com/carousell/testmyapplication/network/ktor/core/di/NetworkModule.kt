@@ -7,6 +7,8 @@ import com.carousell.testmyapplication.network.ktor.core.installRequestIntercept
 import com.carousell.testmyapplication.network.ktor.core.installResponseInterceptor
 import com.carousell.testmyapplication.network.ktor.core.serialization.BooleanIntSerializer
 import com.carousell.testmyapplication.network.ktor.core.serialization.InstantIso8601Serializer
+import com.foundation.preferences.AppDataStore
+import com.foundation.preferences.di.PreferencesModule
 import io.ktor.client.HttpClient
 import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.network.sockets.SocketTimeoutException
@@ -16,9 +18,9 @@ import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.plugins.auth.providers.BearerTokens
 import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.request.HttpRequestPipeline
 import io.ktor.client.request.header
 import io.ktor.http.ContentType
 import io.ktor.serialization.kotlinx.json.json
@@ -35,7 +37,10 @@ import kotlin.time.Instant
 private val tokenRefreshMutex = Mutex()
 private const val REQ_TIMEOUT = 60000L
 
-private fun createHttpClient(headerProvider: HeaderProvider): HttpClient {
+private fun createHttpClient(
+    headerProvider: HeaderProvider,
+    appDataStore: AppDataStore,
+): HttpClient {
     val json =
         Json {
             ignoreUnknownKeys = true
@@ -52,14 +57,18 @@ private fun createHttpClient(headerProvider: HeaderProvider): HttpClient {
         installRequestInterceptor()
         installResponseInterceptor()
 
-        engine {
-            followRedirects = true
+        // Apply dynamic headers from HeaderProvider (suspendable)
+        install("HeaderProviderPlugin") {
+            requestPipeline.intercept(HttpRequestPipeline.State) {
+                headerProvider.getHeaders().forEach { (key, value) ->
+                    context.header(key, value)
+                }
+                proceed()
+            }
         }
 
-        defaultRequest {
-            headerProvider.getHeaders().forEach { (key, value) ->
-                header(key, value)
-            }
+        engine {
+            followRedirects = true
         }
 
         // 1. CONTENT-TYPE OVERRIDE (Serves application/json anyway)
@@ -90,8 +99,8 @@ private fun createHttpClient(headerProvider: HeaderProvider): HttpClient {
                 loadTokens {
                     // Normally loaded from Multiplatform Settings / DataStore
                     BearerTokens(
-                        accessToken = "ACCESS_TOKEN_HERE",
-                        refreshToken = "REFRESH_TOKEN_HERE",
+                        accessToken = appDataStore.getData(AppDataStore.ACCESS_TOKEN) ?: "",
+                        refreshToken = appDataStore.getData(AppDataStore.REFRESH_TOKEN),
                     )
                 }
 
@@ -102,10 +111,14 @@ private fun createHttpClient(headerProvider: HeaderProvider): HttpClient {
                             // Execute a manual, isolated authentication refresh call here.
                             // Do NOT use this same client to hit the refresh endpoint directly
                             // unless bypass rules are configured, to avoid infinite 401 loops.
-                            val freshAccess = "NEW_ACCESS_TOKEN"
-                            val freshRefresh = "NEW_REFRESH_TOKEN"
 
-                            BearerTokens(freshAccess, freshRefresh)
+                            appDataStore.updateData(AppDataStore.ACCESS_TOKEN, "Test_1234")
+                            appDataStore.updateData(AppDataStore.REFRESH_TOKEN, "Refresh_1234")
+
+                            BearerTokens(
+                                appDataStore.getData(AppDataStore.ACCESS_TOKEN) ?: "",
+                                appDataStore.getData(AppDataStore.REFRESH_TOKEN),
+                            )
                         } catch (e: Exception) {
                             logMessage("Critical auth token refresh failed: ${e.message}")
                             // Triggers application logout broadcast, resets storage here
@@ -134,12 +147,15 @@ private fun createHttpClient(headerProvider: HeaderProvider): HttpClient {
     }
 }
 
-@Module
+@Module(includes = [PreferencesModule::class])
 @ComponentScan("com.carousell.testmyapplication.network.ktor.core")
 class NetworkModule {
     @Single
-    fun headerProvider(): HeaderProvider = DefaultHeaderProvider()
+    fun headerProvider(appDataStore: AppDataStore): HeaderProvider = DefaultHeaderProvider(appDataStore)
 
     @Single
-    fun httpClient(headerProvider: HeaderProvider): HttpClient = createHttpClient(headerProvider)
+    fun httpClient(
+        headerProvider: HeaderProvider,
+        appDataStore: AppDataStore,
+    ): HttpClient = createHttpClient(headerProvider, appDataStore)
 }
