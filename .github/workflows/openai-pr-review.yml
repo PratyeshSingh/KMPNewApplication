@@ -135,54 +135,54 @@ jobs:
 
           Changed Files:
           
-            $CHANGED_FILES
+          $CHANGED_FILES
 
-            Git Diff:
+          Git Diff:
+          
+          $DIFF_CONTENT
+          EOF
+          )
             
-              $DIFF_CONTENT
-              EOF
-              )
-              
-              PAYLOAD=$(jq -n \
-              --arg prompt "$PROMPT" \
-              '{
-            model: "gpt-5.5",
-            input: $prompt
-            }')
+          PAYLOAD=$(jq -n \
+          --arg prompt "$PROMPT" \
+          '{
+          model: "gpt-5.5",
+          input: $prompt
+          }')
+          
+                    echo "Calling OpenAI..."
+          
+                    RESPONSE=$(curl \
+                      --silent \
+                      --show-error \
+                      --fail \
+                      https://api.openai.com/v1/responses \
+                      -H "Authorization: Bearer '"$OPENAI_API_KEY"'" \
+                      -H "Content-Type: application/json" \
+                      -d "$PAYLOAD")
+          
+                    REVIEW=$(echo "$RESPONSE" | jq -r '.output_text // empty')
             
-                      echo "Calling OpenAI..."
+            if [ -z "$REVIEW" ]; then
+            echo "OpenAI returned an empty response."
+            echo "$RESPONSE"
+            exit 1
+            fi
             
-                      RESPONSE=$(curl \
-                        --silent \
-                        --show-error \
-                        --fail \
-                        https://api.openai.com/v1/responses \
-                        -H "Authorization: Bearer '"$OPENAI_API_KEY"'" \
-                        -H "Content-Type: application/json" \
-                        -d "$PAYLOAD")
+            {
+              echo "## 🤖 OpenAI PR Review"
+              echo
+              echo "---"
+              echo
+              echo "$REVIEW"
+              echo
+              echo "---"
+              echo
+              echo "_Generated automatically using OpenAI_"
+            } > review.md
             
-                      REVIEW=$(echo "$RESPONSE" | jq -r '.output_text // empty')
-              
-              if [ -z "$REVIEW" ]; then
-              echo "OpenAI returned an empty response."
-              echo "$RESPONSE"
-              exit 1
-              fi
-              
-              {
-                echo "## 🤖 OpenAI PR Review"
-                echo
-                echo "---"
-                echo
-                echo "$REVIEW"
-                echo
-                echo "---"
-                echo
-                echo "_Generated automatically using OpenAI_"
-              } > review.md
-              
-              echo "Posting PR comment..."
-              
-              gh pr comment \
-                ${{ github.event.pull_request.number }} \
-                --body-file review.md
+            echo "Posting PR comment..."
+            
+            gh pr comment \
+              ${{ github.event.pull_request.number }} \
+              --body-file review.md
