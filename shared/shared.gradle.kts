@@ -82,6 +82,7 @@ kotlin {
             implementation(projects.features.productList)
             implementation(projects.features.productDetails)
             implementation(projects.foundation.apiCache)
+            implementation(projects.foundation.preferences)
 
             implementation(libs.koin.core)
             implementation(libs.koin.compose)

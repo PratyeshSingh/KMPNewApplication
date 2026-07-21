@@ -1,15 +1,25 @@
 package com.carousell.testmyapplication.network.ktor.core
 
+import com.foundation.preferences.AppDataStore
+
 interface HeaderProvider {
-    fun getHeaders(): Map<String, String>
+    suspend fun getHeaders(): Map<String, String>
 }
 
-internal class DefaultHeaderProvider : HeaderProvider {
-    override fun getHeaders(): Map<String, String> {
-        return mapOf(
-            "X-Platform" to "KMP",
-            "Content-Type" to "application/json",
-            // Add other dynamic headers here, e.g. from Settings or State
-        )
+internal class DefaultHeaderProvider(
+    private val appDataStore: AppDataStore,
+) : HeaderProvider {
+    override suspend fun getHeaders(): Map<String, String> {
+        val headers =
+            mutableMapOf(
+                "X-Platform" to "KMP",
+                "Content-Type" to "application/json",
+            )
+
+        appDataStore.getData(AppDataStore.ACCESS_TOKEN)?.let {
+            headers["Authorization"] = "Bearer $it"
+        }
+
+        return headers
     }
 }
