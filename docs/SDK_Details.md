@@ -20,6 +20,7 @@
 | **DataStore** | `1.2.1` | Persistent data storage. |
 | **Okio** | `3.10.2` | I/O and buffering. |
 | **Coil** | `3.5.0` | Image loading. |
+ **Wiretap KMP** | `1.0.0-RC15` | Network monitoring and interception. |
 
 ### Android Jetpack & UI Libraries
 | Component | Version | Description |
@@ -40,6 +41,7 @@
 | **Robolectric** | `4.16.1` | Android unit testing on the JVM. |
 | **Espresso** | `3.7.0` | UI testing framework. |
 | **AndroidX Test Ext** | `1.3.0` | Extensions for Android testing. |
+| **LeakCanary** | `2.14` | Memory leak detection for Android. |
 | **Kover** | `0.9.9` | Code coverage reports. |
 | **Detekt** | `1.23.8` | Static analysis for Kotlin. |
 | **Ktlint** | `12.1.0` | Kotlin linting/formatting. |

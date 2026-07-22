@@ -75,6 +75,7 @@ kotlin {
             implementation(libs.coil.network.ktor)
 
             implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.wiretap.ktor)
 
             implementation(projects.network.ktorCore)
             implementation(projects.foundation.logger)

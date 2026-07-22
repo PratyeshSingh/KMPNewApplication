@@ -9,6 +9,8 @@ import com.carousell.testmyapplication.network.ktor.core.serialization.BooleanIn
 import com.carousell.testmyapplication.network.ktor.core.serialization.InstantIso8601Serializer
 import com.foundation.preferences.AppDataStore
 import com.foundation.preferences.di.PreferencesModule
+import dev.skymansandy.wiretap.domain.model.config.http.LogRetention
+import dev.skymansandy.wiretap.plugin.http.WiretapKtorHttpPlugin
 import io.ktor.client.HttpClient
 import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.network.sockets.SocketTimeoutException
@@ -54,6 +56,19 @@ private fun createHttpClient(
         }
 
     return HttpClient {
+        install(WiretapKtorHttpPlugin) {
+            enabled = true // default
+            shouldLog = { url, method -> true } // default: log everything
+            logRetention = LogRetention.Days(7)
+            maxContentLength = 100 * 1024 // truncate bodies > 100 KB
+//            headerAction = { key ->
+//                when {
+//                    key.equals("Authorization", ignoreCase = true) -> HeaderAction.Mask()
+//                    key.equals("Cookie", ignoreCase = true) -> HeaderAction.Skip
+//                    else -> HeaderAction.Keep
+//                }
+//            }
+        }
         installRequestInterceptor()
         installResponseInterceptor()
 
