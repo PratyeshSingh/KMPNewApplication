@@ -25,6 +25,9 @@ dependencies {
     implementation(libs.compose.uiToolingPreview)
     debugImplementation(libs.compose.uiTooling)
     debugImplementation(libs.leakcanary.android)
+
+    debugImplementation(libs.wiretap.ktor)
+    releaseImplementation(libs.wiretap.ktor.noop)
 }
 
 android {

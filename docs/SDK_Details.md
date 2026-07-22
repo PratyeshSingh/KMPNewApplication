@@ -20,6 +20,7 @@
 | **DataStore** | `1.2.1` | Persistent data storage. |
 | **Okio** | `3.10.2` | I/O and buffering. |
 | **Coil** | `3.5.0` | Image loading. |
+ **Wiretap KMP** | `1.0.0-RC15` | Network monitoring and interception. |
 
 ### Android Jetpack & UI Libraries
 | Component | Version | Description |

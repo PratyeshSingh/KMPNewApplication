@@ -6,6 +6,7 @@ import com.carousell.testmyapplication.network.ktor.core.di.NetworkModule
 import com.foundation.preferences.di.PreferencesModule
 import com.product.details.ProductDetailsModule
 import com.product.list.ProductListModule
+import dev.skymansandy.wiretap.helper.launcher.enableWiretapLauncher
 import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.KoinApplication
 import org.koin.core.annotation.Module
@@ -36,5 +37,6 @@ fun initKoin() = initKoin {}
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) {
     startKoin<SharedApp> {
         appDeclaration()
+        enableWiretapLauncher()
     }
 }

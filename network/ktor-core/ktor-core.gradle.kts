@@ -41,6 +41,7 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.ktor.client.auth)
             implementation(libs.ktor.client.logging)
+            implementation(libs.wiretap.ktor)
 
             implementation(libs.koin.core)
             implementation(libs.koin.annotations)
