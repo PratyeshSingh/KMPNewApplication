@@ -10,6 +10,7 @@ import com.carousell.testmyapplication.network.ktor.core.serialization.InstantIs
 import com.foundation.preferences.AppDataStore
 import com.foundation.preferences.di.PreferencesModule
 import dev.skymansandy.wiretap.domain.model.config.http.LogRetention
+import dev.skymansandy.wiretap.plugin.http.WiretapKtorHttpPlugin
 import io.ktor.client.HttpClient
 import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.network.sockets.SocketTimeoutException
@@ -25,7 +26,6 @@ import io.ktor.client.request.HttpRequestPipeline
 import io.ktor.client.request.header
 import io.ktor.http.ContentType
 import io.ktor.serialization.kotlinx.json.json
-import dev.skymansandy.wiretap.plugin.http.WiretapKtorHttpPlugin
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.json.Json
@@ -57,10 +57,10 @@ private fun createHttpClient(
 
     return HttpClient {
         install(WiretapKtorHttpPlugin) {
-            enabled = true                                    // default
-            shouldLog = { url, method -> true }               // default: log everything
+            enabled = true // default
+            shouldLog = { url, method -> true } // default: log everything
             logRetention = LogRetention.Days(7)
-            maxContentLength = 100 * 1024                     // truncate bodies > 100 KB
+            maxContentLength = 100 * 1024 // truncate bodies > 100 KB
 //            headerAction = { key ->
 //                when {
 //                    key.equals("Authorization", ignoreCase = true) -> HeaderAction.Mask()
