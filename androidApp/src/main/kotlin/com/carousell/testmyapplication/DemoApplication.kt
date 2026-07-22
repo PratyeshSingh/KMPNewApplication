@@ -9,6 +9,7 @@ class DemoApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        LeakCanaryInitializer.init(this)
 
         initKoin {
             androidContext(this@DemoApplication)
